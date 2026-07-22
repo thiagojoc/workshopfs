@@ -168,43 +168,57 @@ main{
   max-width:680px;
 }
 
-/* ── TIMELINE (panel 1) ───────────────────────────────── */
-.timeline{
-  position:relative;
-  padding-left:28px;
+/* ── FUNIL (panel 1) ──────────────────────────────────── */
+.funnel{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
 }
-.timeline::before{
-  content:'';
-  position:absolute;
-  left:6px;top:6px;bottom:6px;
-  width:2px;
-  background:linear-gradient(var(--gold),var(--border));
+.funnel-step{
+  width:var(--w);
+  max-width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
-.timeline-item{
-  position:relative;
-  padding-bottom:26px;
+.funnel-bar{
+  width:100%;
+  clip-path:polygon(4% 0,96% 0,88% 100%,12% 100%);
+  background:linear-gradient(135deg,#e8bd6e,var(--gold) 55%,#b9843a);
+  color:#1a1305;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px 22px;
+  box-shadow:0 6px 18px -6px #d9a94e55;
 }
-.timeline-item:last-child{padding-bottom:0;}
-.timeline-item::before{
-  content:'';
-  position:absolute;
-  left:-28px;top:4px;
-  width:13px;height:13px;
+.funnel-n{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px;height:22px;
   border-radius:50%;
-  background:var(--bg);
-  border:2px solid var(--gold);
-}
-.timeline-item h3{
-  font-family:var(--ff-display);
-  font-size:15.5px;
-  font-weight:600;
-  margin:0 0 6px;
+  background:#1a1305;
   color:var(--gold);
+  font-family:var(--ff-display);
+  font-weight:700;
+  font-size:12px;
 }
-.timeline-item p{
-  margin:0;
-  font-size:14px;
+.funnel-label{
+  font-family:var(--ff-display);
+  font-weight:700;
+  font-size:14.5px;
+  text-align:center;
+}
+.funnel-desc{
+  margin:10px 10px 0;
+  max-width:520px;
+  font-size:13.5px;
   color:#c7cbd6;
+  text-align:center;
 }
 
 /* ── DAY CARDS / WHATSAPP MOCK (panel 2) ──────────────── */
@@ -263,13 +277,17 @@ main{
   padding:10px 14px;
   border-radius:4px 14px 14px 14px;
 }
-.bubble:not(.poll){
+.bubble ul{margin:6px 0 0;padding-left:18px;}
+
+/* ── Conteúdo editável (bolhas, roteiro, oferta, objeções) ─ */
+[contenteditable="true"]{
   cursor:text;
   outline:none;
+  border-radius:4px;
+  transition:box-shadow .15s,background .15s;
 }
-.bubble:not(.poll):hover{box-shadow:0 0 0 1px var(--gold)66;}
-.bubble:not(.poll):focus{box-shadow:0 0 0 2px var(--gold);background:var(--card);}
-.bubble ul{margin:6px 0 0;padding-left:18px;}
+[contenteditable="true"]:hover{box-shadow:0 0 0 1px var(--gold)66;}
+[contenteditable="true"]:focus{box-shadow:0 0 0 2px var(--gold);background:var(--card);}
 
 /* ── Enquete no estilo WhatsApp ───────────────────────── */
 .bubble.poll{
@@ -320,15 +338,26 @@ main{
 }
 .poll-opt:hover{background:#ffffff0a;}
 
-/* ── Dica de edição + toolbar de formatação ───────────── */
-.edit-hint{
+/* ── Banner global de edição + nota interna ───────────── */
+.edit-banner{
+  max-width:820px;
+  margin:0 auto 28px;
   font-size:12.5px;
   color:var(--gold);
   background:var(--gold-dim);
   border:1px solid #d9a94e33;
   border-radius:8px;
-  padding:9px 13px;
-  margin:-14px 0 24px;
+  padding:10px 16px;
+}
+.note{
+  font-size:13px;
+  color:#e8dcc0;
+  background:#3d281230;
+  border:1px solid #d9a94e44;
+  border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;
+  padding:12px 16px;
+  margin-bottom:22px;
 }
 .fmt-toolbar{
   display:none;
