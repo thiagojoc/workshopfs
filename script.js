@@ -112,3 +112,37 @@ function setupEditableContent(){
     }
   });
 }
+
+// Junta todas as edições salvas neste navegador num texto simples pra
+// mandar pra quem for atualizar o documento oficial (o arquivo em si so
+// muda quando alguem aplica isso na fonte, ja que a pagina e estatica).
+function exportEdits(){
+  var groupLabels = {fl:'Funil (titulo)', fd:'Funil (descricao)', b:'Mensagem de copy', s:'Roteiro', q:'Oferta', aq:'Objecao, pergunta', aa:'Objecao, resposta'};
+  var keys = [];
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if(k && k.indexOf('wfs_edit_') === 0) keys.push(k.slice('wfs_edit_'.length));
+    }
+  }catch(e){}
+  if(!keys.length){
+    alert('Nenhuma edição encontrada neste navegador ainda.');
+    return;
+  }
+  var lines = keys.map(function(key){
+    var tag = key.match(/^[a-z]+/)[0];
+    var el = document.querySelector('[data-key="' + key + '"]');
+    var text = el ? el.innerText : localStorage.getItem('wfs_edit_' + key);
+    return '[' + (groupLabels[tag] || tag) + '] ' + text;
+  });
+  var out = lines.join('\n\n');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(out).then(function(){
+      alert('Edições copiadas! Agora é só colar e enviar pra atualizar o documento oficial.');
+    }).catch(function(){
+      window.prompt('Copie o texto abaixo e envie:', out);
+    });
+  }else{
+    window.prompt('Copie o texto abaixo e envie:', out);
+  }
+}

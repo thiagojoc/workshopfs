@@ -349,6 +349,20 @@ main{
   border-radius:8px;
   padding:10px 16px;
 }
+.export-btn{
+  display:block;
+  margin-top:9px;
+  padding:8px 14px;
+  background:var(--gold);
+  border:none;
+  border-radius:7px;
+  color:#1a1305;
+  font-family:var(--ff-body);
+  font-size:12.5px;
+  font-weight:700;
+  cursor:pointer;
+}
+.export-btn:hover{background:#e8bd6e;}
 .note{
   font-size:13px;
   color:#e8dcc0;
