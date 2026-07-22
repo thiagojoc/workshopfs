@@ -27,10 +27,10 @@ document.addEventListener('DOMContentLoaded', function(){
   setupEditableContent();
 });
 
-// Deixa qualquer texto do documento (funil, copies do WhatsApp — menos a
-// enquete, que tem estrutura fixa —, roteiro, oferta e objeções) editável
+// Deixa qualquer texto do documento (funil, copies do WhatsApp, exceto a
+// enquete, que tem estrutura fixa, roteiro, oferta e objeções) editável
 // direto na página, com uma mini-barra pra negrito/itálico/lista. Persiste
-// em localStorage — só nesse navegador (não sincroniza entre dispositivos,
+// em localStorage, só nesse navegador (não sincroniza entre dispositivos,
 // já que é uma página estática sem backend).
 function setupEditableContent(){
   var toolbar = document.createElement('div');
@@ -90,7 +90,7 @@ function setupEditableContent(){
   });
 
   // A pergunta do accordion mora dentro do <button> que abre/fecha a
-  // resposta — sem isso, clicar pra editar o texto também ficaria
+  // resposta, então sem isso clicar pra editar o texto também ficaria
   // abrindo/fechando o item toda hora.
   document.querySelectorAll('.acc-q > span:first-child').forEach(function(span){
     span.addEventListener('click', function(e){ e.stopPropagation(); });
