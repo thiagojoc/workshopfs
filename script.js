@@ -132,6 +132,7 @@ function setupEditableContent(){
   var groups = [
     { sel: ".funnel-label", tag: "fl" },
     { sel: ".funnel-desc", tag: "fd" },
+    { sel: ".setup-text", tag: "st" },
     { sel: ".bubble:not(.poll)", tag: "b" },
     { sel: ".schedule-text", tag: "s" },
     { sel: ".quote > span", tag: "q" },
@@ -172,7 +173,7 @@ function setupEditableContent(){
 // navegador) num texto simples, útil pra revisar tudo de uma vez ou como
 // alternativa caso a sincronização ao vivo esteja indisponível.
 function exportEdits(){
-  var groupLabels = { fl: "Funil, titulo", fd: "Funil, descricao", b: "Mensagem de copy", s: "Roteiro", q: "Oferta", aq: "Objecao, pergunta", aa: "Objecao, resposta" };
+  var groupLabels = { fl: "Funil, titulo", fd: "Funil, descricao", st: "Configuracao do grupo", b: "Mensagem de copy", s: "Roteiro", q: "Oferta", aq: "Objecao, pergunta", aa: "Objecao, resposta" };
   var keys = Object.keys(_liveEdits || {});
   try{
     for(var i = 0; i < localStorage.length; i++){
