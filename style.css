@@ -107,6 +107,7 @@ body{
 }
 .tabs{
   display:flex;
+  justify-content:center;
   gap:6px;
   max-width:960px;
   margin:0 auto;
@@ -256,27 +257,95 @@ main{
   padding:10px 14px;
   border-radius:4px 14px 14px 14px;
 }
+.bubble:not(.poll){
+  cursor:text;
+  outline:none;
+}
+.bubble:not(.poll):hover{box-shadow:0 0 0 1px var(--gold)66;}
+.bubble:not(.poll):focus{box-shadow:0 0 0 2px var(--gold);background:var(--card);}
+.bubble ul{margin:6px 0 0;padding-left:18px;}
+
+/* ── Enquete no estilo WhatsApp ───────────────────────── */
 .bubble.poll{
-  max-width:100%;
-  background:var(--wa-dim);
-  border:1px solid #25d36640;
+  max-width:92%;
+  background:#1e2532;
+  border:1px solid #2f3a4d;
+  border-radius:14px;
+  padding:14px 16px 12px;
 }
 .poll-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
   font-size:11px;
   font-weight:700;
   letter-spacing:.05em;
   text-transform:uppercase;
   color:var(--wa);
-  margin-bottom:6px;
+  margin-bottom:10px;
+}
+.poll-title::before{content:'📊';font-size:13px;}
+.poll-question{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:12px;
+  line-height:1.4;
 }
 .poll-opt{
-  margin-top:6px;
-  font-size:13px;
-  padding:8px 10px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  background:var(--bg2);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13.5px;
+  color:#dde1ea;
+  padding:10px 12px;
+  margin-bottom:6px;
+  border-radius:10px;
+  border:1px solid #ffffff17;
+  transition:background .15s;
 }
+.poll-opt:last-child{margin-bottom:0;}
+.poll-opt::before{
+  content:'';
+  flex-shrink:0;
+  width:16px;height:16px;
+  border-radius:50%;
+  border:2px solid var(--wa);
+}
+.poll-opt:hover{background:#ffffff0a;}
+
+/* ── Dica de edição + toolbar de formatação ───────────── */
+.edit-hint{
+  font-size:12.5px;
+  color:var(--gold);
+  background:var(--gold-dim);
+  border:1px solid #d9a94e33;
+  border-radius:8px;
+  padding:9px 13px;
+  margin:-14px 0 24px;
+}
+.fmt-toolbar{
+  display:none;
+  position:absolute;
+  z-index:50;
+  align-items:center;
+  gap:2px;
+  background:#1d2230;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:4px;
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+}
+.fmt-toolbar button{
+  width:28px;height:28px;
+  border:none;
+  border-radius:6px;
+  background:transparent;
+  color:var(--text);
+  font-size:13px;
+  cursor:pointer;
+}
+.fmt-toolbar button:hover{background:var(--card2);color:var(--gold);}
 
 /* ── SCHEDULE (panel 3) ───────────────────────────────── */
 .schedule-item{
