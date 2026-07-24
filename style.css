@@ -194,6 +194,8 @@ main{
   padding:16px 22px;
   box-shadow:0 6px 18px -6px #d9a94e55;
 }
+.funnel-bar-link{cursor:pointer;transition:filter .15s;}
+.funnel-bar-link:hover{filter:brightness(1.08);}
 .funnel-n{
   flex-shrink:0;
   display:inline-flex;
@@ -289,6 +291,15 @@ main{
   border:1px solid var(--border);
   border-radius:8px;
   padding:8px 12px;
+}
+.format-tag{
+  font-size:12.5px;
+  color:#c9e8d8;
+  background:var(--green-dim);
+  border:1px solid #3ecf8e33;
+  border-radius:8px;
+  padding:8px 12px;
+  margin-top:8px;
 }
 .day-body{
   padding:18px 20px;
@@ -521,10 +532,10 @@ main{
   font-weight:600;
   color:#0b0d12;
   background:var(--blue);
-  padding:9px 16px;
+  padding:9px 18px;
   border-radius:999px;
   text-decoration:none;
-  word-break:break-all;
+  white-space:nowrap;
   text-align:center;
 }
 .real-link:hover{background:#7ea3f2;}
