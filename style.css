@@ -194,6 +194,8 @@ main{
   padding:16px 22px;
   box-shadow:0 6px 18px -6px #d9a94e55;
 }
+.funnel-bar-link{cursor:pointer;transition:filter .15s;}
+.funnel-bar-link:hover{filter:brightness(1.08);}
 .funnel-n{
   flex-shrink:0;
   display:inline-flex;
@@ -521,10 +523,10 @@ main{
   font-weight:600;
   color:#0b0d12;
   background:var(--blue);
-  padding:9px 16px;
+  padding:9px 18px;
   border-radius:999px;
   text-decoration:none;
-  word-break:break-all;
+  white-space:nowrap;
   text-align:center;
 }
 .real-link:hover{background:#7ea3f2;}
