@@ -570,8 +570,8 @@ main{
 }
 .lightbox-overlay.show{display:flex;}
 .lightbox-overlay img{
-  max-width:min(92vw,720px);
-  max-height:90vh;
+  max-width:min(94vw,960px);
+  max-height:92vh;
   border-radius:12px;
   box-shadow:0 20px 60px -12px #000000c0;
 }
