@@ -75,21 +75,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
   setupEditableContent();
   setupLightbox();
-  setupFunnelScrollLinks();
   _startLiveSync();
 });
-
-// Passos do funil marcados com data-scroll-target descem a tela até o
-// elemento correspondente quando clicados (ex: "Cadência de lembretes"
-// leva até os cards com as mensagens de verdade, mais abaixo na página).
-function setupFunnelScrollLinks(){
-  document.querySelectorAll(".funnel-bar[data-scroll-target]").forEach(function(bar){
-    bar.addEventListener("click", function(){
-      var target = document.getElementById(bar.getAttribute("data-scroll-target"));
-      if(target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-}
 
 // Clique numa imagem real do funil (print/criativo) abre ela maior, em cima
 // do resto da página. Clique de novo em qualquer lugar fecha.
