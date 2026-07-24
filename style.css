@@ -520,14 +520,14 @@ main{
   font-size:13px;
   font-weight:600;
   color:#0b0d12;
-  background:var(--gold);
+  background:var(--blue);
   padding:9px 16px;
   border-radius:999px;
   text-decoration:none;
   word-break:break-all;
   text-align:center;
 }
-.real-link:hover{background:#e8bd6e;}
+.real-link:hover{background:#7ea3f2;}
 .real-img{
   max-width:220px;
   border-radius:12px;
@@ -555,6 +555,26 @@ main{
   color:var(--muted);
 }
 .admin-list b{color:var(--text);}
+
+/* ── LIGHTBOX (clicar numa imagem real do funil) ──────── */
+.lightbox-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(6,7,10,0.92);
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  cursor:zoom-out;
+}
+.lightbox-overlay.show{display:flex;}
+.lightbox-overlay img{
+  max-width:min(92vw,720px);
+  max-height:90vh;
+  border-radius:12px;
+  box-shadow:0 20px 60px -12px #000000c0;
+}
 
 /* ── FOOTER ───────────────────────────────────────────── */
 footer{

@@ -74,8 +74,32 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   setupEditableContent();
+  setupLightbox();
   _startLiveSync();
 });
+
+// Clique numa imagem real do funil (print/criativo) abre ela maior, em cima
+// do resto da página. Clique de novo em qualquer lugar fecha.
+function setupLightbox(){
+  var overlay = document.createElement("div");
+  overlay.className = "lightbox-overlay";
+  var img = document.createElement("img");
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+
+  document.querySelectorAll(".real-img").forEach(function(thumb){
+    thumb.style.cursor = "zoom-in";
+    thumb.addEventListener("click", function(){
+      img.src = thumb.src;
+      overlay.classList.add("show");
+    });
+  });
+
+  overlay.addEventListener("click", function(){
+    overlay.classList.remove("show");
+    img.src = "";
+  });
+}
 
 // Deixa qualquer texto do documento (funil, copies do WhatsApp, exceto a
 // enquete, que tem estrutura fixa, roteiro, oferta e objeções) editável
