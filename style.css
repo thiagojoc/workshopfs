@@ -504,6 +504,58 @@ main{
   padding:0 18px 16px;
 }
 
+/* ── FUNIL REAL (panel 6) ─────────────────────────────── */
+.funnel-extra{
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  max-width:420px;
+}
+.real-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+  color:#0b0d12;
+  background:var(--gold);
+  padding:9px 16px;
+  border-radius:999px;
+  text-decoration:none;
+  word-break:break-all;
+  text-align:center;
+}
+.real-link:hover{background:#e8bd6e;}
+.real-img{
+  max-width:220px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  box-shadow:0 10px 26px -10px #00000080;
+}
+.tag-row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+.tag-chip{
+  font-size:12px;
+  font-weight:600;
+  color:#dde1ea;
+  background:var(--card2);
+  border:1px solid var(--border);
+  padding:6px 12px;
+  border-radius:999px;
+}
+.tag-chip b{color:var(--gold);font-weight:700;}
+.admin-list{
+  font-size:12.5px;
+  color:var(--muted);
+}
+.admin-list b{color:var(--text);}
+
 /* ── FOOTER ───────────────────────────────────────────── */
 footer{
   text-align:center;
