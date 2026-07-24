@@ -194,8 +194,6 @@ main{
   padding:16px 22px;
   box-shadow:0 6px 18px -6px #d9a94e55;
 }
-.funnel-bar-link{cursor:pointer;transition:filter .15s;}
-.funnel-bar-link:hover{filter:brightness(1.08);}
 .funnel-n{
   flex-shrink:0;
   display:inline-flex;
