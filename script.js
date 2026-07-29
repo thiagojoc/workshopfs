@@ -151,8 +151,18 @@ function setupEditableContent(){
     _editableEls.push({ el: el, key: key });
   }
 
-  // Grupos de elementos editáveis, cada um com sua própria contagem (pra
-  // gerar uma chave estável mesmo que outro grupo mude de tamanho).
+  // Grupos de elementos editáveis. A chave de cada um vem de um hash do
+  // texto original (não da posição no HTML), pra continuar apontando pro
+  // balão certo mesmo depois que a página ganha conteúdo novo no meio,
+  // o que antes deslocava a numeração de tudo que vinha depois e fazia
+  // edições salvas caírem no elemento errado.
+  function _hashStr(s){
+    var h = 0;
+    for(var i = 0; i < s.length; i++){
+      h = (h * 31 + s.charCodeAt(i)) | 0;
+    }
+    return (h >>> 0).toString(36);
+  }
   var groups = [
     { sel: ".funnel-label", tag: "fl" },
     { sel: ".funnel-desc", tag: "fd" },
@@ -164,8 +174,12 @@ function setupEditableContent(){
     { sel: ".acc-a", tag: "aa" }
   ];
   groups.forEach(function(g){
-    document.querySelectorAll(g.sel).forEach(function(el, i){
-      makeEditable(el, g.tag + i);
+    var seen = {};
+    document.querySelectorAll(g.sel).forEach(function(el){
+      var base = g.tag + "_" + _hashStr(el.textContent.trim());
+      var n = seen[base] = (seen[base] || 0) + 1;
+      var key = n > 1 ? base + "_" + n : base;
+      makeEditable(el, key);
     });
   });
 
