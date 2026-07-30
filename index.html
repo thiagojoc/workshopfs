@@ -10,21 +10,47 @@
 </head>
 <body>
 
+<div id="access-gate" class="access-gate">
+  <div class="gate-box">
+    <div class="brand-logo">
+      <svg viewBox="0 0 32 24" width="30" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="32" height="7" rx="2" fill="#d9a94e"/><rect x="0" y="8.5" width="22" height="7" rx="2" fill="#d9a94e"/><rect x="0" y="17" width="12" height="7" rx="2" fill="#d9a94e"/></svg>
+      <div class="brand-text"><span class="brand-flow">FLOW</span><span class="brand-sales">SALES</span></div>
+    </div>
+    <h2>Método de Workshop</h2>
+    <p>Digite o código de acesso do seu escritório</p>
+    <input type="text" id="gate-code" class="gate-input" placeholder="Código de acesso" autocomplete="off">
+    <button type="button" id="gate-btn" class="gate-btn">Entrar</button>
+    <div class="gate-err" id="gate-err" style="display:none">Código inválido.</div>
+  </div>
+</div>
+
+<div id="app-shell" style="display:none">
+
 <header class="hero">
   <div class="brand-logo">
     <svg viewBox="0 0 32 24" width="30" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="32" height="7" rx="2" fill="#d9a94e"/><rect x="0" y="8.5" width="22" height="7" rx="2" fill="#d9a94e"/><rect x="0" y="17" width="12" height="7" rx="2" fill="#d9a94e"/></svg>
     <div class="brand-text"><span class="brand-flow">FLOW</span><span class="brand-sales">SALES</span></div>
   </div>
+  <button type="button" id="gate-logout" class="gate-logout" title="Trocar de escritório">Trocar escritório</button>
   <h1>Método de Workshop</h1>
-  <p class="subtitle">Captação de clientes para Auxílio Maternidade</p>
-  <div class="meta">
+  <p class="subtitle" id="office-subtitle">Captação de clientes para Auxílio Maternidade</p>
+  <div class="meta" id="office-meta">
     <span class="badge">Preparado para: Dra. Alinne e Dra. Kênia</span>
     <span class="badge">Pacheco &amp; Portela Advocacia</span>
     <span class="badge live">Workshop ao vivo: 29/07, às 19h30 (Google Meet)</span>
   </div>
+  <div class="workshop-switch" id="workshop-switch" style="display:none">
+    <label for="workshop-select">Workshop:</label>
+    <select id="workshop-select"></select>
+  </div>
 </header>
 
-<nav class="tabs-wrap">
+<div id="no-workshop-state" class="no-workshop-state" style="display:none">
+  <h2>Nenhum workshop cadastrado ainda</h2>
+  <p>Assim que o primeiro workshop desse escritório for construído, ele aparece aqui pra seleção.</p>
+</div>
+
+<nav class="tabs-wrap" id="tabs-wrap">
   <div class="tabs">
     <button class="tab-btn active" data-target="panel-1">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
@@ -45,6 +71,10 @@
     <button class="tab-btn" data-target="panel-5">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       Objeções
+    </button>
+    <button class="tab-btn" data-target="panel-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Resultados
     </button>
   </div>
 </nav>
@@ -476,12 +506,46 @@
     </div>
   </section>
 
+  <!-- PANEL 6: RESULTADOS -->
+  <section class="panel" id="panel-6">
+    <h2>Resultados por Workshop</h2>
+    <p class="intro">Números reais de cada edição do workshop, pra acompanhar a evolução ao longo do tempo.</p>
+
+    <div class="result-card" id="result-card-aux-maternidade-2907">
+      <h3>Auxílio Maternidade · 29/07/2026</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <label>Leads totais</label>
+          <input type="number" class="result-input" data-rkey="leads" value="110">
+        </div>
+        <div class="result-item">
+          <label>Leads no auge do grupo</label>
+          <input type="number" class="result-input" data-rkey="leadsAugeGrupo" value="93">
+        </div>
+        <div class="result-item">
+          <label>Leads no pico de audiência</label>
+          <input type="number" class="result-input" data-rkey="leadsPico" value="28">
+        </div>
+        <div class="result-item">
+          <label>Vendas</label>
+          <input type="number" class="result-input" data-rkey="vendas" value="3">
+        </div>
+        <div class="result-item">
+          <label>Parcerias fechadas</label>
+          <input type="number" class="result-input" data-rkey="parcerias" value="1">
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
   <div class="edit-banner">✏️ Qualquer texto deste documento pode ser editado: clique nele pra digitar, selecione um trecho pra deixar em <b>negrito</b>, <i>itálico</i> ou lista com marcadores. As edições sincronizam ao vivo entre quem estiver com a página aberta.</div>
-  Flowsales &middot; Método de Workshop &middot; Auxílio Maternidade &middot; Material interno, Uso restrito
+  Flowsales &middot; Método de Workshop &middot; Material interno, Uso restrito
 </footer>
+
+</div>
 
 <script type="module" src="script.js"></script>
 </body>

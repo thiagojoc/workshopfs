@@ -2,9 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Mesmo projeto Firebase ja usado no flowsales-crm e no Body & Mind (conta
-// gratuita, plano Spark). Guarda as edicoes deste documento num unico
-// documento Firestore, sincronizado ao vivo entre quem estiver com a pagina
-// aberta (Alinne, Kenia, Carlos), sem precisar de login.
+// gratuita, plano Spark). Guarda as edicoes e resultados de cada workshop
+// num documento Firestore por escritorio+workshop, sincronizado ao vivo
+// entre quem estiver com a pagina aberta.
 const _fbConfig = {
   apiKey: "AIzaSyBTqzj-9-AOI181sPCKvRsVGDujkWogIGI",
   authDomain: "flowbody-30162.firebaseapp.com",
@@ -15,10 +15,47 @@ const _fbConfig = {
 };
 const _fbApp = initializeApp(_fbConfig);
 const _fbDb = getFirestore(_fbApp);
-const _docRef = doc(_fbDb, "workshopfs", "content");
 
+// Escritorios com acesso ao material, cada um com seu codigo e sua lista de
+// workshops. O docId de cada workshop e o nome do documento no Firestore
+// (o workshop atual da Pacheco e Portela usa "content" pra nao perder as
+// edicoes ja salvas de antes dessa divisao por escritorio existir).
+var OFFICES = [
+  {
+    id: "pacheco",
+    name: "Pacheco & Portela Advocacia",
+    code: "PACHECO2026",
+    subtitle: "Captação de clientes para Auxílio Maternidade",
+    badges: [
+      "Preparado para: Dra. Alinne e Dra. Kênia",
+      "Pacheco &amp; Portela Advocacia"
+    ],
+    workshops: [
+      {
+        id: "aux-maternidade-2907",
+        name: "Auxílio Maternidade · 29/07/2026",
+        docId: "content",
+        liveBadge: "Workshop ao vivo: 29/07, às 19h30 (Google Meet)"
+      }
+    ]
+  },
+  {
+    id: "dinizhenn",
+    name: "Diniz e Henn Advocacia",
+    code: "DINIZHENN2026",
+    subtitle: "Captação de clientes",
+    badges: [
+      "Diniz e Henn Advocacia"
+    ],
+    workshops: []
+  }
+];
+
+var _docRef = null;
+var _unsubSnapshot = null;
 var _liveEdits = {};
 var _editableEls = []; // {el, key} de tudo que virou editável nesta página
+var _resultInputs = []; // elementos .result-input desta página
 
 function _applyRemoteEdits(edits){
   _liveEdits = edits || {};
@@ -31,20 +68,168 @@ function _applyRemoteEdits(edits){
   });
 }
 
+function _applyRemoteResults(results){
+  results = results || {};
+  _resultInputs.forEach(function(input){
+    if(document.activeElement === input) return;
+    var rkey = input.dataset.rkey;
+    if(Object.prototype.hasOwnProperty.call(results, rkey)){
+      var val = String(results[rkey]);
+      if(input.value !== val) input.value = val;
+    }
+  });
+}
+
 function _startLiveSync(){
-  onSnapshot(_docRef, function(snap){
-    _applyRemoteEdits(snap.exists() ? (snap.data().edits || {}) : {});
+  if(!_docRef) return;
+  if(_unsubSnapshot) _unsubSnapshot();
+  _unsubSnapshot = onSnapshot(_docRef, function(snap){
+    var data = snap.exists() ? snap.data() : {};
+    _applyRemoteEdits(data.edits || {});
+    _applyRemoteResults(data.results || {});
   }, function(err){
     console.warn("Sincronização ao vivo indisponível, usando só este navegador.", err);
   });
 }
 
 function _saveRemote(key, html){
+  if(!_docRef) return;
   var patch = { edits: {} };
   patch.edits[key] = html;
   setDoc(_docRef, patch, { merge: true }).catch(function(err){
     console.warn("Não deu pra salvar ao vivo, ficou só neste navegador.", err);
   });
+}
+
+function _saveRemoteResult(rkey, value){
+  if(!_docRef) return;
+  var patch = { results: {} };
+  patch.results[rkey] = value;
+  setDoc(_docRef, patch, { merge: true }).catch(function(err){
+    console.warn("Não deu pra salvar o resultado ao vivo, ficou só neste navegador.", err);
+  });
+}
+
+// ── ACESSO POR CÓDIGO DO ESCRITÓRIO ──────────────────────
+function _findOffice(code){
+  var norm = (code || "").trim().toUpperCase();
+  return OFFICES.filter(function(o){ return o.code === norm; })[0] || null;
+}
+
+function _setupGate(){
+  var gate = document.getElementById("access-gate");
+  var shell = document.getElementById("app-shell");
+  var input = document.getElementById("gate-code");
+  var btn = document.getElementById("gate-btn");
+  var err = document.getElementById("gate-err");
+  var logoutBtn = document.getElementById("gate-logout");
+
+  function unlock(office){
+    gate.style.display = "none";
+    shell.style.display = "";
+    _initOffice(office);
+  }
+
+  function tryCode(){
+    var office = _findOffice(input.value);
+    if(office){
+      try{ localStorage.setItem("wfs_office_code", office.code); }catch(e){}
+      err.style.display = "none";
+      unlock(office);
+    }else{
+      err.style.display = "block";
+    }
+  }
+
+  btn.addEventListener("click", tryCode);
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter") tryCode();
+  });
+
+  if(logoutBtn){
+    logoutBtn.addEventListener("click", function(){
+      try{ localStorage.removeItem("wfs_office_code"); }catch(e){}
+      if(_unsubSnapshot){ _unsubSnapshot(); _unsubSnapshot = null; }
+      shell.style.display = "none";
+      gate.style.display = "flex";
+      input.value = "";
+      input.focus();
+    });
+  }
+
+  var savedCode = null;
+  try{ savedCode = localStorage.getItem("wfs_office_code"); }catch(e){}
+  var savedOffice = savedCode ? _findOffice(savedCode) : null;
+  if(savedOffice){
+    unlock(savedOffice);
+  }else{
+    gate.style.display = "flex";
+    shell.style.display = "none";
+  }
+}
+
+// ── SELEÇÃO DE WORKSHOP DENTRO DO ESCRITÓRIO ─────────────
+function _initOffice(office){
+  var subtitleEl = document.getElementById("office-subtitle");
+  var metaEl = document.getElementById("office-meta");
+  var switchWrap = document.getElementById("workshop-switch");
+  var select = document.getElementById("workshop-select");
+  var noWorkshop = document.getElementById("no-workshop-state");
+  var tabsWrap = document.getElementById("tabs-wrap");
+  var mainEl = document.querySelector("main");
+
+  if(subtitleEl) subtitleEl.textContent = office.subtitle || "";
+  if(metaEl) metaEl.innerHTML = (office.badges || []).map(function(b){
+    return '<span class="badge">' + b + '</span>';
+  }).join("");
+
+  if(!office.workshops.length){
+    if(tabsWrap) tabsWrap.style.display = "none";
+    if(mainEl) mainEl.style.display = "none";
+    if(noWorkshop) noWorkshop.style.display = "block";
+    if(switchWrap) switchWrap.style.display = "none";
+    return;
+  }
+
+  if(tabsWrap) tabsWrap.style.display = "";
+  if(mainEl) mainEl.style.display = "";
+  if(noWorkshop) noWorkshop.style.display = "none";
+
+  if(switchWrap) switchWrap.style.display = office.workshops.length ? "flex" : "none";
+  if(select){
+    select.innerHTML = office.workshops.map(function(w){
+      return '<option value="' + w.id + '">' + w.name + '</option>';
+    }).join("");
+
+    var savedWorkshopId = null;
+    try{ savedWorkshopId = localStorage.getItem("wfs_workshop_" + office.id); }catch(e){}
+    var current = office.workshops.filter(function(w){ return w.id === savedWorkshopId; })[0] || office.workshops[0];
+    select.value = current.id;
+
+    select.addEventListener("change", function(){
+      var chosen = office.workshops.filter(function(w){ return w.id === select.value; })[0];
+      if(!chosen) return;
+      try{ localStorage.setItem("wfs_workshop_" + office.id, chosen.id); }catch(e){}
+      _selectWorkshop(office, chosen);
+    });
+
+    _selectWorkshop(office, current);
+  }
+}
+
+function _selectWorkshop(office, workshop){
+  var metaEl = document.getElementById("office-meta");
+  if(metaEl && workshop.liveBadge){
+    var liveSpan = metaEl.querySelector(".badge.live");
+    if(!liveSpan){
+      liveSpan = document.createElement("span");
+      liveSpan.className = "badge live";
+      metaEl.appendChild(liveSpan);
+    }
+    liveSpan.textContent = workshop.liveBadge;
+  }
+  _docRef = doc(_fbDb, "workshopfs", office.id + "_" + workshop.docId);
+  _startLiveSync();
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -74,8 +259,9 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   setupEditableContent();
+  setupResultsPanel();
   setupLightbox();
-  _startLiveSync();
+  _setupGate();
 });
 
 // Clique numa imagem real do funil (print/criativo) abre ela maior, em cima
@@ -98,6 +284,17 @@ function setupLightbox(){
   overlay.addEventListener("click", function(){
     overlay.classList.remove("show");
     img.src = "";
+  });
+}
+
+// Campos numéricos da aba "Resultados por Workshop": salvam ao sair do
+// campo, sincronizados ao vivo pelo mesmo documento do workshop atual.
+function setupResultsPanel(){
+  _resultInputs = Array.prototype.slice.call(document.querySelectorAll(".result-input"));
+  _resultInputs.forEach(function(input){
+    input.addEventListener("blur", function(){
+      _saveRemoteResult(input.dataset.rkey, input.value);
+    });
   });
 }
 
