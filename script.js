@@ -24,8 +24,7 @@ var OFFICES = [
   {
     id: "pacheco",
     name: "Pacheco & Portela Advocacia",
-    code: "PACHECO2026",
-    subtitle: "Captação de clientes para Auxílio Maternidade",
+    code: "PP+FS",
     badges: [
       "Preparado para: Dra. Alinne e Dra. Kênia",
       "Pacheco &amp; Portela Advocacia"
@@ -42,8 +41,7 @@ var OFFICES = [
   {
     id: "dinizhenn",
     name: "Diniz e Henn Advocacia",
-    code: "DINIZHENN2026",
-    subtitle: "Captação de clientes",
+    code: "DHA+FS",
     badges: [
       "Diniz e Henn Advocacia"
     ],
@@ -170,7 +168,6 @@ function _setupGate(){
 
 // ── SELEÇÃO DE WORKSHOP DENTRO DO ESCRITÓRIO ─────────────
 function _initOffice(office){
-  var subtitleEl = document.getElementById("office-subtitle");
   var metaEl = document.getElementById("office-meta");
   var switchWrap = document.getElementById("workshop-switch");
   var select = document.getElementById("workshop-select");
@@ -178,10 +175,11 @@ function _initOffice(office){
   var tabsWrap = document.getElementById("tabs-wrap");
   var mainEl = document.querySelector("main");
 
-  if(subtitleEl) subtitleEl.textContent = office.subtitle || "";
   if(metaEl) metaEl.innerHTML = (office.badges || []).map(function(b){
     return '<span class="badge">' + b + '</span>';
   }).join("");
+
+  _setupComparativo(office);
 
   if(!office.workshops.length){
     if(tabsWrap) tabsWrap.style.display = "none";
@@ -230,6 +228,50 @@ function _selectWorkshop(office, workshop){
   }
   _docRef = doc(_fbDb, "workshopfs", office.id + "_" + workshop.docId);
   _startLiveSync();
+}
+
+// ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
+var _compareUnsubs = [];
+var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "parcerias"];
+
+function _setupComparativo(office){
+  _compareUnsubs.forEach(function(unsub){ unsub(); });
+  _compareUnsubs = [];
+
+  var tbody = document.getElementById("compare-tbody");
+  var empty = document.getElementById("compare-empty");
+  if(!tbody || !empty) return;
+
+  if(!office.workshops.length){
+    tbody.innerHTML = "";
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+
+  tbody.innerHTML = office.workshops.map(function(w){
+    return '<tr id="compare-row-' + w.id + '">' +
+      '<td class="compare-name">' + w.name + '</td>' +
+      _RESULT_COLS.map(function(){ return '<td>-</td>'; }).join("") +
+      '</tr>';
+  }).join("");
+
+  office.workshops.forEach(function(w){
+    var wDocRef = doc(_fbDb, "workshopfs", office.id + "_" + w.docId);
+    var unsub = onSnapshot(wDocRef, function(snap){
+      var results = (snap.exists() ? snap.data().results : {}) || {};
+      var row = document.getElementById("compare-row-" + w.id);
+      if(!row) return;
+      var cells = row.querySelectorAll("td");
+      _RESULT_COLS.forEach(function(col, i){
+        var val = results[col];
+        cells[i + 1].textContent = (val === undefined || val === null || val === "") ? "-" : val;
+      });
+    }, function(err){
+      console.warn("Não deu pra carregar o comparativo de " + w.id, err);
+    });
+    _compareUnsubs.push(unsub);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", function(){

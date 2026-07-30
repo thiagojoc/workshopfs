@@ -33,7 +33,6 @@
   </div>
   <button type="button" id="gate-logout" class="gate-logout" title="Trocar de escritório">Trocar escritório</button>
   <h1>Método de Workshop</h1>
-  <p class="subtitle" id="office-subtitle">Captação de clientes para Auxílio Maternidade</p>
   <div class="meta" id="office-meta">
     <span class="badge">Preparado para: Dra. Alinne e Dra. Kênia</span>
     <span class="badge">Pacheco &amp; Portela Advocacia</span>
@@ -75,6 +74,10 @@
     <button class="tab-btn" data-target="panel-6">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       Resultados
+    </button>
+    <button class="tab-btn" data-target="panel-7">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg>
+      Comparativo
     </button>
   </div>
 </nav>
@@ -536,6 +539,29 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- PANEL 7: COMPARATIVO DE WORKSHOPS -->
+  <section class="panel" id="panel-7">
+    <h2>Comparativo de Workshops</h2>
+    <p class="intro">Compare os resultados de cada edição do workshop lado a lado, pra acompanhar a evolução.</p>
+
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Workshop</th>
+            <th>Leads totais</th>
+            <th>Leads no auge do grupo</th>
+            <th>Leads no pico de audiência</th>
+            <th>Vendas</th>
+            <th>Parcerias</th>
+          </tr>
+        </thead>
+        <tbody id="compare-tbody"></tbody>
+      </table>
+    </div>
+    <div class="compare-empty" id="compare-empty" style="display:none">Nenhum workshop pra comparar ainda.</div>
   </section>
 
 </main>
