@@ -39,7 +39,7 @@
     <span class="badge live">Workshop ao vivo: 29/07, às 19h30 (Google Meet)</span>
   </div>
   <div class="workshop-switch" id="workshop-switch" style="display:none">
-    <label for="workshop-select">Workshop:</label>
+    <label for="workshop-select">Selecione o workshop</label>
     <select id="workshop-select"></select>
   </div>
 </header>
@@ -516,26 +516,22 @@
 
     <div class="result-card" id="result-card-aux-maternidade-2907">
       <h3>Auxílio Maternidade · 29/07/2026</h3>
-      <div class="result-grid">
-        <div class="result-item">
-          <label>Leads totais</label>
-          <input type="number" class="result-input" data-rkey="leads" value="110">
+      <div class="result-funnel">
+        <div class="rf-step" style="--fw:100%">
+          <div class="rf-label">Leads totais</div>
+          <div class="rf-bar"><input type="number" class="result-input" data-rkey="leads" value="110"></div>
         </div>
-        <div class="result-item">
-          <label>Leads no auge do grupo</label>
-          <input type="number" class="result-input" data-rkey="leadsAugeGrupo" value="93">
+        <div class="rf-step" style="--fw:80%">
+          <div class="rf-label">Leads no auge do grupo</div>
+          <div class="rf-bar"><input type="number" class="result-input" data-rkey="leadsAugeGrupo" value="93"></div>
         </div>
-        <div class="result-item">
-          <label>Leads no pico de audiência</label>
-          <input type="number" class="result-input" data-rkey="leadsPico" value="28">
+        <div class="rf-step" style="--fw:58%">
+          <div class="rf-label">Leads no pico de audiência</div>
+          <div class="rf-bar"><input type="number" class="result-input" data-rkey="leadsPico" value="28"></div>
         </div>
-        <div class="result-item">
-          <label>Vendas</label>
-          <input type="number" class="result-input" data-rkey="vendas" value="3">
-        </div>
-        <div class="result-item">
-          <label>Parcerias fechadas</label>
-          <input type="number" class="result-input" data-rkey="parcerias" value="1">
+        <div class="rf-step" style="--fw:34%">
+          <div class="rf-label">Vendas</div>
+          <div class="rf-bar"><input type="number" class="result-input" data-rkey="vendas" value="3"></div>
         </div>
       </div>
     </div>
@@ -555,7 +551,6 @@
             <th>Leads no auge do grupo</th>
             <th>Leads no pico de audiência</th>
             <th>Vendas</th>
-            <th>Parcerias</th>
           </tr>
         </thead>
         <tbody id="compare-tbody"></tbody>
