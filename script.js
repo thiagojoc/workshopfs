@@ -33,8 +33,7 @@ var OFFICES = [
       {
         id: "aux-maternidade-2907",
         name: "Auxílio Maternidade · 29/07/2026",
-        docId: "content",
-        liveBadge: "Workshop ao vivo: 29/07, às 19h30 (Google Meet)"
+        docId: "content"
       }
     ]
   },
@@ -216,16 +215,6 @@ function _initOffice(office){
 }
 
 function _selectWorkshop(office, workshop){
-  var metaEl = document.getElementById("office-meta");
-  if(metaEl && workshop.liveBadge){
-    var liveSpan = metaEl.querySelector(".badge.live");
-    if(!liveSpan){
-      liveSpan = document.createElement("span");
-      liveSpan.className = "badge live";
-      metaEl.appendChild(liveSpan);
-    }
-    liveSpan.textContent = workshop.liveBadge;
-  }
   _docRef = doc(_fbDb, "workshopfs", office.id + "_" + workshop.docId);
   _startLiveSync();
 }
