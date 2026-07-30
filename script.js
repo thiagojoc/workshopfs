@@ -232,7 +232,7 @@ function _selectWorkshop(office, workshop){
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
 var _compareUnsubs = [];
-var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "parcerias"];
+var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas"];
 
 function _setupComparativo(office){
   _compareUnsubs.forEach(function(unsub){ unsub(); });
