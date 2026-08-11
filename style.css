@@ -13,8 +13,17 @@
   --wa:#25d366;
   --wa-dim:#25d3661a;
   --blue:#5b8def;
-  --ff-display:'Poppins',sans-serif;
-  --ff-body:'Inter',sans-serif;
+  --ff-display:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --ff-body:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  /* escala de tipografia do design system TIEE (display/title/subtitle/
+     body/caption). Cores e o resto do visual continuam como estavam, só
+     a fonte e os tamanhos de texto seguem essa escala. */
+  --fs-display:32px;--lh-display:40px;
+  --fs-title:24px;--lh-title:32px;
+  --fs-subtitle:20px;--lh-subtitle:28px;
+  --fs-lead:18px;--lh-lead:28px;
+  --fs-body:16px;--lh-body:24px;
+  --fs-caption:14px;--lh-caption:20px;
 }
 
 *{box-sizing:border-box;}
@@ -24,9 +33,26 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:var(--ff-body);
+  font-size:var(--fs-body);
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
 }
+h1{font-size:var(--fs-display);line-height:var(--lh-display);font-weight:600;letter-spacing:-0.01em;}
+h2{font-size:var(--fs-title);line-height:var(--lh-title);font-weight:600;letter-spacing:-0.005em;}
+h3{font-size:var(--fs-subtitle);line-height:var(--lh-subtitle);font-weight:600;}
+h4{font-size:var(--fs-body);line-height:var(--lh-body);font-weight:600;}
+p{font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;}
+small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
+.t-display{font-size:var(--fs-display);line-height:var(--lh-display);font-weight:600;letter-spacing:-0.01em;}
+.t-title{font-size:var(--fs-title);line-height:var(--lh-title);font-weight:600;letter-spacing:-0.005em;}
+.t-subtitle{font-size:var(--fs-subtitle);line-height:var(--lh-subtitle);font-weight:600;}
+.t-lead{font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:400;}
+.t-body{font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;}
+.t-body-medium{font-size:var(--fs-body);line-height:var(--lh-body);font-weight:500;}
+.t-body-strong{font-size:var(--fs-body);line-height:var(--lh-body);font-weight:600;}
+.t-caption{font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:400;}
+.t-caption-medium{font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:500;}
+.t-caption-strong{font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:600;}
 
 /* ── HERO ─────────────────────────────────────────────── */
 .hero{
