@@ -108,8 +108,40 @@ function _saveRemoteResult(rkey, value){
 }
 
 // ── ACESSO POR CÓDIGO DO ESCRITÓRIO ──────────────────────
+// Código de admin: entra vendo todos os escritórios juntos (visão geral),
+// não fica preso a um só. Usado pelo Thiago e pelo Carlos.
+var ADMIN_CODE = "FS2026";
+
+function _buildAdminOffice(){
+  var allWorkshops = [];
+  OFFICES.forEach(function(o){
+    o.workshops.forEach(function(w){
+      allWorkshops.push({
+        id: o.id + "__" + w.id,
+        name: o.name + " — " + w.name,
+        docId: w.docId,
+        // aponta direto pro documento real do escritório (ver _selectWorkshop
+        // e _setupComparativo), em vez de montar a chave a partir do id
+        // sintético "admin" deste escritório virtual.
+        fullDocId: o.id + "_" + w.docId
+      });
+    });
+  });
+  return {
+    id: "admin",
+    name: "Visão Geral (Admin)",
+    code: ADMIN_CODE,
+    badges: [
+      "Visão geral · todos os escritórios",
+      "Acesso Thiago e Carlos"
+    ],
+    workshops: allWorkshops
+  };
+}
+
 function _findOffice(code){
   var norm = (code || "").trim().toUpperCase();
+  if(norm === ADMIN_CODE) return _buildAdminOffice();
   return OFFICES.filter(function(o){ return o.code === norm; })[0] || null;
 }
 
@@ -215,7 +247,11 @@ function _initOffice(office){
 }
 
 function _selectWorkshop(office, workshop){
-  _docRef = doc(_fbDb, "workshopfs", office.id + "_" + workshop.docId);
+  // no modo admin, cada workshop ja carrega o fullDocId com a chave real do
+  // escritorio dono do conteudo (ver _buildAdminOffice); nos escritorios
+  // normais isso fica vazio e a chave continua sendo montada como sempre.
+  var key = workshop.fullDocId || (office.id + "_" + workshop.docId);
+  _docRef = doc(_fbDb, "workshopfs", key);
   _startLiveSync();
 }
 
@@ -246,7 +282,8 @@ function _setupComparativo(office){
   }).join("");
 
   office.workshops.forEach(function(w){
-    var wDocRef = doc(_fbDb, "workshopfs", office.id + "_" + w.docId);
+    var key = w.fullDocId || (office.id + "_" + w.docId);
+    var wDocRef = doc(_fbDb, "workshopfs", key);
     var unsub = onSnapshot(wDocRef, function(snap){
       var results = (snap.exists() ? snap.data().results : {}) || {};
       var row = document.getElementById("compare-row-" + w.id);
