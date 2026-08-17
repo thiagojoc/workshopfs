@@ -44,7 +44,13 @@ var OFFICES = [
     badges: [
       "Diniz e Henn Advocacia"
     ],
-    workshops: []
+    workshops: [
+      {
+        id: "traslado-1908",
+        name: "Traslado de Registro Civil · 19/08/2026",
+        docId: "traslado-1908"
+      }
+    ]
   }
 ];
 
@@ -198,7 +204,19 @@ function _setupGate(){
 }
 
 // ── SELEÇÃO DE WORKSHOP DENTRO DO ESCRITÓRIO ─────────────
+// A pagina e compartilhada entre todos os escritorios, mas cada um so deve
+// ver o proprio conteudo (funil, copies, roteiro, oferta, objecoes,
+// resultados). Cada bloco especifico de um escritorio carrega
+// data-office="id-do-escritorio"; no modo admin (visao geral) mostra tudo.
+function _applyOfficeVisibility(office){
+  var showAll = office.id === "admin";
+  document.querySelectorAll("[data-office]").forEach(function(el){
+    el.style.display = (showAll || el.dataset.office === office.id) ? "" : "none";
+  });
+}
+
 function _initOffice(office){
+  _applyOfficeVisibility(office);
   var metaEl = document.getElementById("office-meta");
   var switchWrap = document.getElementById("workshop-switch");
   var select = document.getElementById("workshop-select");
