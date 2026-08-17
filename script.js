@@ -129,7 +129,11 @@ function _buildAdminOffice(){
         // aponta direto pro documento real do escritório (ver _selectWorkshop
         // e _setupComparativo), em vez de montar a chave a partir do id
         // sintético "admin" deste escritório virtual.
-        fullDocId: o.id + "_" + w.docId
+        fullDocId: o.id + "_" + w.docId,
+        // dono de verdade desse workshop, pra saber qual conteudo mostrar
+        // (funil/copies/roteiro/oferta/objeções/resultados) quando ele for
+        // selecionado no modo admin. Ver _selectWorkshop.
+        realOfficeId: o.id
       });
     });
   });
@@ -271,6 +275,14 @@ function _selectWorkshop(office, workshop){
   var key = workshop.fullDocId || (office.id + "_" + workshop.docId);
   _docRef = doc(_fbDb, "workshopfs", key);
   _startLiveSync();
+  // no modo admin, o conteudo dos paineis (funil, copies, roteiro, oferta,
+  // objeções, resultados) precisa acompanhar o workshop escolhido no
+  // seletor, mostrando so o escritorio dono dele. Sem isso, ficava sempre
+  // mostrando tudo junto (os dois escritorios), mesmo depois de trocar de
+  // workshop no seletor.
+  if(office.id === "admin"){
+    _applyOfficeVisibility({ id: workshop.realOfficeId || office.id });
+  }
 }
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
