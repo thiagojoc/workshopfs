@@ -60,6 +60,16 @@ var _liveEdits = {};
 var _editableEls = []; // {el, key} de tudo que virou editável nesta página
 var _resultInputs = []; // elementos .result-input desta página
 
+// Considera "vazio" um trecho editado que só tem tags/espacos/&nbsp/<br>
+// sem nenhum texto de verdade (ex: alguém selecionou tudo e apagou, o
+// contenteditable às vezes deixa um <br> sobrando). Isso evita balõezinhos
+// fantasmas, bem estreitos, sobrando na página depois de uma edição ao
+// vivo que esvaziou o conteúdo original.
+function _isBlankHtml(html){
+  var text = (html || "").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
+  return text.trim() === "";
+}
+
 function _applyRemoteEdits(edits){
   _liveEdits = edits || {};
   _editableEls.forEach(function(item){
@@ -68,6 +78,7 @@ function _applyRemoteEdits(edits){
       var val = _liveEdits[item.key];
       if(item.el.innerHTML !== val) item.el.innerHTML = val;
     }
+    item.el.style.display = _isBlankHtml(item.el.innerHTML) ? "none" : "";
   });
 }
 
