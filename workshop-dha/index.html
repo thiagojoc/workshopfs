@@ -183,8 +183,43 @@ footer{padding:34px 20px;text-align:center;}
 footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--marrom-esc);margin-bottom:8px;}
 
 /* HEADER */
-.site-header{background:var(--preto);padding:14px 20px;text-align:center;border-bottom:2px solid var(--bronze);}
+.site-header{background:var(--preto);padding:14px 20px;border-bottom:2px solid var(--bronze);}
+.site-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 26px;}
 .site-header .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;letter-spacing:.03em;color:var(--bronze-cl);}
+.site-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;}
+.site-nav a{font-size:13px;font-weight:600;color:#D9C6AE;text-decoration:none;opacity:.85;transition:opacity .15s,color .15s;}
+.site-nav a:hover{opacity:1;color:var(--bronze-cl);}
+
+/* COMO FUNCIONA */
+.como-funciona{padding:60px 20px;background:var(--branco);}
+.como-funciona h2{text-align:center;font-weight:600;font-size:clamp(24px,4vw,32px);color:var(--marrom-esc);max-width:640px;margin:0 auto 36px;line-height:1.3;}
+.steps-list{display:flex;flex-direction:column;gap:0;max-width:600px;margin:0 auto;}
+.step-item{display:flex;gap:16px;padding:16px 0;}
+.step-item:not(:last-child){border-bottom:1px solid var(--creme2);}
+.step-n{
+  flex-shrink:0;width:32px;height:32px;border-radius:50%;
+  background:var(--marrom-esc);color:var(--bronze-cl);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;
+}
+.step-item p{font-size:16px;color:var(--txt);line-height:1.55;padding-top:4px;}
+
+/* FAQ */
+.faq{padding:60px 20px;background:var(--creme2);}
+.faq h2{text-align:center;font-weight:600;font-size:clamp(24px,4vw,32px);color:var(--marrom-esc);max-width:640px;margin:0 auto 36px;line-height:1.3;}
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:680px;margin:0 auto;}
+.faq-item{background:var(--branco);border:1px solid var(--creme2);border-radius:14px;overflow:hidden;}
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 20px;text-align:left;
+  font-family:'Inter',sans-serif;font-size:15.5px;font-weight:600;color:var(--txt);
+}
+.faq-q .plus{flex-shrink:0;font-size:20px;color:var(--bronze);transition:transform .2s;}
+.faq-item.open .faq-q .plus{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+.faq-a p{font-size:15px;color:var(--txtcl);line-height:1.65;padding:0 20px 18px;}
+.faq-item.open .faq-a{max-height:200px;}
 
 /* FOOTER (social/endereco) */
 .ft-inner{max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;}
@@ -232,7 +267,15 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
 <body>
 
 <header class="site-header">
-  <span class="brand">Diniz Henn Advogados Associados</span>
+  <div class="site-header-inner">
+    <span class="brand">Diniz Henn Advogados Associados</span>
+    <nav class="site-nav">
+      <a href="#descobrir">Sobre</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#advogado">O advogado</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
 </header>
 
 <a class="btn-float" id="btn-float" href="#entrar">Quero participar</a>
@@ -251,7 +294,7 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
   </div>
 </section>
 
-<section class="descobrir">
+<section class="descobrir" id="descobrir">
   <div class="container">
     <h2 class="reveal">Nesse workshop, você vai descobrir</h2>
     <div class="check-list">
@@ -279,7 +322,31 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
   </div>
 </section>
 
-<section class="sobre">
+<section class="como-funciona" id="como-funciona">
+  <div class="container">
+    <h2 class="reveal">Como funciona</h2>
+    <div class="steps-list">
+      <div class="step-item reveal">
+        <span class="step-n">1</span>
+        <p>Entre no grupo do workshop pelo WhatsApp (é só clicar no botão mais abaixo).</p>
+      </div>
+      <div class="step-item reveal">
+        <span class="step-n">2</span>
+        <p>Você recebe, dentro do grupo, o link do Google Meet e os lembretes antes do dia.</p>
+      </div>
+      <div class="step-item reveal">
+        <span class="step-n">3</span>
+        <p>Participe da live gratuita, com cerca de 1 hora de duração, direto com o Dr. Marcelo.</p>
+      </div>
+      <div class="step-item reveal">
+        <span class="step-n">4</span>
+        <p>Conheça a condição especial disponível só durante o workshop, para quem decidir regularizar a situação.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sobre" id="advogado">
   <div class="sobre-inner reveal">
     <div class="sobre-photo"><img src="img/marcelo.jpg" alt="Dr. Marcelo Mendonça Filho" width="447" height="717" loading="lazy"></div>
     <div class="sobre-text">
@@ -309,6 +376,38 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
     <p>Mudar-se para os Estados Unidos é um ato de coragem. É buscar um futuro melhor, mas também enfrentar desafios como a barreira do idioma, a burocracia consular e a saudade de casa.</p>
     <p>A Associação de Brasileiros nos Estados Unidos (ABEU) nasceu para ser a ponte, o porto seguro e a rede de apoio que todo brasileiro precisa para prosperar aqui.</p>
     <p>Participe deste workshop e entenda o que precisa ser feito para evitar problemas futuros.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <h2 class="reveal">Perguntas frequentes</h2>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q"><span>Registrar no consulado já resolve no Brasil?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Nem sempre. Em muitos casos, o registro ainda precisa ser trasladado pra produzir efeitos completos no Brasil.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Precisa ser feito no Distrito Federal?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Quando a pessoa é domiciliada no exterior, o registro costuma ser feito no cartório competente do Distrito Federal.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Preciso ir pessoalmente ao Brasil?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Em muitos casos, não. O processo pode ser acompanhado por advogado com procuração.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Quanto tempo demora?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Depois do protocolo correto, o prazo pode variar de aproximadamente 90 dias a 6 meses.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Preciso enviar documentos originais?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Alguns cartórios iniciam a análise digitalmente, mas podem exigir originais conforme o caso.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>O escritório acompanha tudo?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Sim. O escritório orienta os documentos, define o caminho certo, protocola e acompanha as exigências até a conclusão.</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -369,6 +468,17 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
     });
   }, { threshold: 0.1 });
   io.observe(entrar);
+})();
+
+// Accordion do FAQ
+(function(){
+  document.querySelectorAll(".faq-q").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var item = btn.closest(".faq-item");
+      if(!item) return;
+      item.classList.toggle("open");
+    });
+  });
 })();
 </script>
 
