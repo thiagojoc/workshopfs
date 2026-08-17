@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --azul-esc:#141F33; --azul:#1F2E4D; --azul-cl:#334469;
-  --dourado:#B8935A; --dourado-cl:#D9BD8A;
-  --creme:#F6F3EC; --creme2:#ECE4D4;
-  --preto:#161310;
-  --txt:#2E2A24; --txtcl:#726A5C;
+  --marrom-esc:#3B2A1D; --marrom:#4F3A28; --marrom-cl:#6E5238;
+  --bronze:#B98D5D; --bronze-cl:#E0C39C;
+  --creme:#F6EFE4; --creme2:#ECE0CC;
+  --preto:#241A11;
+  --txt:#332619; --txtcl:#7C6851;
   --branco:#FFFFFF;
   --wa:#25D366; --wa-dk:#1DA851;
 }
@@ -27,7 +27,7 @@ a{color:inherit;}
 
 /* HERO */
 .hero{
-  background:radial-gradient(120% 140% at 50% -10%,var(--azul-cl) 0%,var(--azul) 45%,var(--azul-esc) 100%);
+  background:radial-gradient(120% 140% at 50% -10%,var(--marrom-cl) 0%,var(--marrom) 45%,var(--marrom-esc) 100%);
   color:var(--branco);
   padding:56px 20px 60px;
   text-align:center;
@@ -35,8 +35,8 @@ a{color:inherit;}
 .eyebrow{
   display:inline-block;
   font-size:14px;font-weight:600;letter-spacing:.03em;
-  color:var(--azul-esc);
-  background:var(--dourado-cl);
+  color:var(--marrom-esc);
+  background:var(--bronze-cl);
   border-radius:100px;
   padding:8px 18px;
   margin-bottom:22px;
@@ -51,21 +51,21 @@ a{color:inherit;}
 }
 .hero .sub{
   font-size:17px;
-  color:#D7DCE8;
+  color:#E4D5C2;
   max-width:600px;
   margin:0 auto 34px;
   line-height:1.6;
 }
 .btn-cta{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  background:var(--dourado);color:var(--azul-esc);
+  background:var(--bronze);color:var(--marrom-esc);
   border:none;border-radius:100px;
   font-family:'Inter',sans-serif;font-size:16px;font-weight:700;
   padding:17px 34px;text-decoration:none;
-  box-shadow:0 14px 30px -10px rgba(184,147,90,0.55);
+  box-shadow:0 14px 30px -10px rgba(185,141,93,0.55);
   transition:transform .15s,background .15s;
 }
-.btn-cta:hover{background:var(--dourado-cl);transform:translateY(-1px);}
+.btn-cta:hover{background:var(--bronze-cl);transform:translateY(-1px);}
 .stats-row{
   display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
   margin-top:34px;
@@ -84,7 +84,7 @@ a{color:inherit;}
 .descobrir h2{
   text-align:center;font-weight:600;
   font-size:clamp(24px,4vw,32px);
-  color:var(--azul-esc);
+  color:var(--marrom-esc);
   max-width:640px;margin:0 auto 36px;
   line-height:1.3;
 }
@@ -98,27 +98,27 @@ a{color:inherit;}
 }
 .check-ico{
   flex-shrink:0;width:28px;height:28px;border-radius:50%;
-  background:var(--dourado);color:var(--branco);
+  background:var(--bronze);color:var(--branco);
   display:flex;align-items:center;justify-content:center;
   font-size:15px;font-weight:700;
 }
 .check-item p{font-size:16px;color:var(--txt);line-height:1.55;}
 
 /* SOBRE */
-.sobre{background:var(--azul-esc);color:var(--branco);padding:64px 20px;}
+.sobre{background:var(--marrom-esc);color:var(--branco);padding:64px 20px;}
 .sobre-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:36px;flex-wrap:wrap;justify-content:center;text-align:left;}
 .sobre-photo{width:220px;flex-shrink:0;margin:0 auto;}
-.sobre-photo img{width:100%;display:block;border-radius:16px;border:2px solid var(--dourado);}
+.sobre-photo img{width:100%;display:block;border-radius:16px;border:2px solid var(--bronze);}
 .sobre-text{flex:1;min-width:260px;}
 .sobre h3{font-size:26px;font-weight:600;color:var(--branco);margin-bottom:4px;}
-.sobre .cargo{font-size:14px;color:var(--dourado-cl);font-weight:600;letter-spacing:.02em;margin-bottom:20px;}
-.sobre p.bio{font-size:16px;color:#D7DCE8;line-height:1.7;margin-bottom:14px;}
-.sobre .parceria{font-size:14px;color:#AEB6C8;}
+.sobre .cargo{font-size:14px;color:var(--bronze-cl);font-weight:600;letter-spacing:.02em;margin-bottom:20px;}
+.sobre p.bio{font-size:16px;color:#E4D5C2;line-height:1.7;margin-bottom:14px;}
+.sobre .parceria{font-size:14px;color:#B8A38C;}
 @media (max-width:600px){
   .sobre-inner{text-align:center;justify-content:center;}
 }
 .quote-box{
-  border-left:3px solid var(--dourado);
+  border-left:3px solid var(--bronze);
   background:rgba(255,255,255,0.05);
   padding:18px 22px;
   margin:26px 0;
@@ -136,9 +136,9 @@ a{color:inherit;}
   border-radius:20px;
   padding:36px 30px;
   text-align:center;
-  box-shadow:0 20px 50px -25px rgba(20,31,51,0.3);
+  box-shadow:0 20px 50px -25px rgba(59,42,29,0.3);
 }
-.cta-card h2{font-size:26px;font-weight:700;color:var(--azul-esc);margin-bottom:10px;}
+.cta-card h2{font-size:26px;font-weight:700;color:var(--marrom-esc);margin-bottom:10px;}
 .cta-card p.desc{font-size:15px;color:var(--txtcl);line-height:1.6;margin-bottom:24px;}
 .btn-wa{
   display:flex;align-items:center;justify-content:center;gap:10px;
@@ -155,15 +155,15 @@ a{color:inherit;}
 @keyframes btnPulseWa{0%,100%{box-shadow:0 6px 26px rgba(37,211,102,0.5),0 0 0 0 rgba(37,211,102,0.35);transform:scale(1);}50%{box-shadow:0 6px 34px rgba(37,211,102,0.75),0 0 0 10px rgba(37,211,102,0);transform:scale(1.03);}}
 @media (prefers-reduced-motion:reduce){.btn-wa{animation:none;}}
 .cta-card .meta-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px;}
-.cta-card .meta-badge{font-size:13px;font-weight:600;color:var(--azul-esc);background:var(--creme2);border:1px solid var(--dourado-cl);border-radius:100px;padding:7px 15px;}
+.cta-card .meta-badge{font-size:13px;font-weight:600;color:var(--marrom-esc);background:var(--creme2);border:1px solid var(--bronze-cl);border-radius:100px;padding:7px 15px;}
 .cta-card .aviso{font-size:13px;color:var(--txtcl);margin-top:20px;line-height:1.6;}
 
 /* FOOTER */
 footer{padding:34px 20px;text-align:center;}
-footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--azul-esc);margin-bottom:8px;}
+footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--marrom-esc);margin-bottom:8px;}
 
 /* HEADER */
-.site-header{background:var(--azul-esc);padding:16px 20px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);}
+.site-header{background:var(--marrom-esc);padding:16px 20px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);}
 .site-header .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:.02em;color:var(--branco);}
 
 /* FOOTER (social/endereco) */
@@ -175,6 +175,30 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
 .ft-insta{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
 .ft-insta svg{fill:#fff;}
 .ft-gmb{background:var(--branco);border:1px solid var(--creme2);}
+
+/* ABEU */
+.abeu{background:var(--creme2);padding:56px 20px;}
+.abeu-inner{max-width:640px;margin:0 auto;text-align:center;}
+.abeu-badge{
+  display:inline-block;font-size:13px;font-weight:700;letter-spacing:.03em;
+  color:var(--marrom-esc);background:var(--branco);
+  border:1px solid var(--bronze-cl);border-radius:100px;
+  padding:8px 18px;margin-bottom:18px;
+}
+.abeu h3{font-size:22px;font-weight:600;color:var(--marrom-esc);line-height:1.35;margin-bottom:18px;}
+.abeu p{font-size:15px;color:var(--txtcl);line-height:1.7;margin-bottom:14px;}
+.abeu p:last-of-type{margin-bottom:0;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.show{opacity:1;transform:translateY(0);}
+.check-list .reveal:nth-child(2){transition-delay:.08s;}
+.check-list .reveal:nth-child(3){transition-delay:.16s;}
+.check-list .reveal:nth-child(4){transition-delay:.24s;}
+.check-list .reveal:nth-child(5){transition-delay:.32s;}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none;}
+}
 </style>
 </head>
 <body>
@@ -199,25 +223,25 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
 
 <section class="descobrir">
   <div class="container">
-    <h2>Nesse workshop, você vai descobrir</h2>
+    <h2 class="reveal">Nesse workshop, você vai descobrir</h2>
     <div class="check-list">
-      <div class="check-item">
+      <div class="check-item reveal">
         <span class="check-ico">✓</span>
         <p>Quando o registro só no Consulado não é suficiente, e o que isso pode causar lá na frente: documentos, herança, venda de bens, e a cidadania dos seus filhos.</p>
       </div>
-      <div class="check-item">
+      <div class="check-item reveal">
         <span class="check-ico">✓</span>
         <p>Como funciona, na prática, o processo de traslado e regularização no Brasil: conferência do registro, apostilamento e tradução quando necessário, e as exigências até a certidão sair regularizada.</p>
       </div>
-      <div class="check-item">
+      <div class="check-item reveal">
         <span class="check-ico">✓</span>
         <p>Por que, pra quem mora fora do Brasil, o registro normalmente é feito no cartório competente do Distrito Federal.</p>
       </div>
-      <div class="check-item">
+      <div class="check-item reveal">
         <span class="check-ico">✓</span>
         <p>Como o escritório Diniz Henn Advogados Associados pode acompanhar todo o processo, da análise do caso até a certidão sair regularizada.</p>
       </div>
-      <div class="check-item">
+      <div class="check-item reveal">
         <span class="check-ico">✓</span>
         <p>A condição especial disponível só durante o workshop, para os primeiros que decidirem regularizar a situação.</p>
       </div>
@@ -226,7 +250,7 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
 </section>
 
 <section class="sobre">
-  <div class="sobre-inner">
+  <div class="sobre-inner reveal">
     <div class="sobre-photo"><img src="img/marcelo.jpg" alt="Dr. Marcelo Mendonça Filho" width="447" height="717" loading="lazy"></div>
     <div class="sobre-text">
       <h3>Dr. Marcelo Mendonça Filho</h3>
@@ -241,8 +265,18 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
   </div>
 </section>
 
+<section class="abeu">
+  <div class="container abeu-inner reveal">
+    <span class="abeu-badge">Associação de Brasileiros nos Estados Unidos</span>
+    <h3>A ABEU é a casa do brasileiro longe de casa. Ajude a manter sempre as portas abertas.</h3>
+    <p>Mudar-se para os Estados Unidos é um ato de coragem. É buscar um futuro melhor, mas também enfrentar desafios como a barreira do idioma, a burocracia consular e a saudade de casa.</p>
+    <p>A Associação de Brasileiros nos Estados Unidos (ABEU) nasceu para ser a ponte, o porto seguro e a rede de apoio que todo brasileiro precisa para prosperar aqui.</p>
+    <p>Participe deste workshop e entenda o que precisa ser feito para evitar problemas futuros.</p>
+  </div>
+</section>
+
 <section class="cta-final" id="entrar">
-  <div class="cta-card">
+  <div class="cta-card reveal">
     <h2>Garanta sua vaga</h2>
     <p class="desc">Sem formulário, sem burocracia: é só entrar no grupo do workshop pelo WhatsApp.</p>
     <a class="btn-wa" href="https://chat.whatsapp.com/BBMeewUTDxPGFw1Gpt8ZCz" target="_blank" rel="noopener">
@@ -267,6 +301,25 @@ footer .nome{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll(".reveal");
+  if(!("IntersectionObserver" in window)){
+    els.forEach(function(el){ el.classList.add("show"); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add("show");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
