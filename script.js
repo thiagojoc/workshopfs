@@ -124,7 +124,7 @@ function _buildAdminOffice(){
     o.workshops.forEach(function(w){
       allWorkshops.push({
         id: o.id + "__" + w.id,
-        name: o.name + " — " + w.name,
+        name: o.name + " · " + w.name,
         docId: w.docId,
         // aponta direto pro documento real do escritório (ver _selectWorkshop
         // e _setupComparativo), em vez de montar a chave a partir do id
