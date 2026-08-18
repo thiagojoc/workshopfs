@@ -228,6 +228,10 @@ function _applyOfficeVisibility(office){
   document.querySelectorAll("[data-office]").forEach(function(el){
     el.style.display = (showAll || el.dataset.office === office.id) ? "" : "none";
   });
+  // O painel 3 do DHA virou material de estudo completo pro Dr. Marcelo,
+  // não só um cronograma, então o rotulo da aba muda pra deixar isso claro.
+  var tab3Label = document.getElementById("tab3-label");
+  if(tab3Label) tab3Label.textContent = office.id === "dinizhenn" ? "Roteiro & Direcionamento" : "Roteiro";
 }
 
 function _initOffice(office){

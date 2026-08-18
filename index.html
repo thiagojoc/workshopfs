@@ -61,7 +61,7 @@
     </button>
     <button class="tab-btn" data-target="panel-3">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Roteiro
+      <span id="tab3-label">Roteiro</span>
     </button>
     <button class="tab-btn" data-target="panel-4">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83V3H3v8h.83l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83z"/><circle cx="6.5" cy="6.5" r="1.5"/></svg>
@@ -477,8 +477,10 @@
 
   <!-- PANEL 3: ROTEIRO -->
   <section class="panel" id="panel-3">
-    <h2>Roteiro do workshop (script para quem apresenta)</h2>
-    <p class="intro">Cronograma sugerido. Os tempos são uma referência, o mais importante é não deixar a oferta e as dúvidas espremidas no final.</p>
+    <h2 data-office="pacheco">Roteiro do workshop (script para quem apresenta)</h2>
+    <p class="intro" data-office="pacheco">Cronograma sugerido. Os tempos são uma referência, o mais importante é não deixar a oferta e as dúvidas espremidas no final.</p>
+    <h2 data-office="dinizhenn" style="display:none">Roteiro & Direcionamento</h2>
+    <p class="intro" data-office="dinizhenn" style="display:none">Material de estudo pro Dr. Marcelo: cronograma sugerido, as frases e a estrutura de raciocínio combinadas na reunião de alinhamento, e os pontos de atenção pra live. Não precisa decorar palavra por palavra, o importante é internalizar a lógica de cada parte.</p>
 
     <div class="schedule-item" data-office="pacheco">
       <div class="schedule-time">0 a 3 min</div>
@@ -513,12 +515,16 @@
       <div class="schedule-text">Dúvidas rápidas: reforçar que quem quiser tirar dúvidas mais específicas pode chamar no privado depois da live.</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
+      <div class="schedule-time">Antes</div>
+      <div class="schedule-text">Chegue um pouco antes do horário pra alinhar com a equipe como vai funcionar o compartilhamento de tela (não é uma call comum, é uma transmissão, então quem controla a tela é a equipe, não você). Celular no silencioso, mas com o grupo do WhatsApp do workshop aberto: se precisarem te passar algum recado durante a live, vai ser por lá.</div>
+    </div>
+    <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">0 a 3 min</div>
-      <div class="schedule-text">Abertura: agradecer a presença de todos, avisar que vai aguardar mais alguns minutos, e pedir para irem colocando no chat de onde são e se já passaram por essa situação (casamento ou filho registrado só no Consulado).</div>
+      <div class="schedule-text">Abertura: alguém da ABEU (Rayan ou Renê) abre o evento, depois a Dra. Gabriela faz uma breve introdução (se apresenta, fala do escritório e da parceria com você) e passa a palavra pra você.</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">3 a 8 min</div>
-      <div class="schedule-text">Abrir a apresentação e explicar os passos da call: o que muita gente não sabe sobre o registro consular, como funciona o processo de regularização no Brasil, e a condição especial do evento.</div>
+      <div class="schedule-text">Abrir a apresentação e explicar os passos da call: o que muita gente não sabe sobre o registro consular, como funciona o processo de regularização no Brasil, e que vai ter uma condição especial no final.</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">8 a 14 min</div>
@@ -526,7 +532,7 @@
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">14 a 22 min</div>
-      <div class="schedule-text">O que muita gente não sabe: o registro no consulado é importante, mas em muitos casos ainda existe uma etapa de traslado no Brasil. Sem essa regularização, podem surgir entraves com documentos, sucessão, patrimônio e outros atos civis.</div>
+      <div class="schedule-text">O que muita gente não sabe: o registro no consulado é importante, mas em muitos casos ainda existe uma etapa de regularização no Brasil. Foque nas desvantagens de NÃO fazer agora, não só nos benefícios de fazer (ver "A virada de mindset" abaixo).</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">22 a 32 min</div>
@@ -534,19 +540,101 @@
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">32 a 38 min</div>
-      <div class="schedule-text">Escopo de atuação do escritório: o que está incluído no acompanhamento, do início (análise do caso) até o fim (emissão da certidão regularizada).</div>
+      <div class="schedule-text">Escopo de atuação do escritório: o que está incluído no acompanhamento, do início (análise do caso) até o fim (emissão da certidão regularizada). Deixe claro que o workshop é pra explicar e tirar dúvidas, mas o serviço em si é individualizado (ver "Workshop x consulta individual" abaixo).</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">38 a 45 min</div>
-      <div class="schedule-text">Investimento e condição especial: apresentar o valor do serviço, e a condição especial disponível só hoje, para os 10 primeiros que avançarem com a contratação (incluindo o bônus da consultoria com a Dra. Gabriela).</div>
+      <div class="schedule-text">Investimento e condição especial: apresentar o valor do serviço e a condição especial disponível só hoje (ver "Frases fixadas" e "Quantos primeiros anunciar" abaixo).</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">45 a 50 min</div>
-      <div class="schedule-text">Chamada para ação: como garantir a condição especial, pra onde mandar mensagem, o que precisa ser feito pra garantir a vaga entre os 10 primeiros.</div>
+      <div class="schedule-text">Chamada para ação: como garantir a condição especial, pra onde mandar mensagem, o que precisa ser feito pra garantir a vaga.</div>
     </div>
     <div class="schedule-item" data-office="dinizhenn" style="display:none">
       <div class="schedule-time">50 min a 1 hora</div>
       <div class="schedule-text">Dúvidas rápidas: reforçar que quem quiser tirar dúvidas mais específicas sobre o próprio caso pode chamar depois da live.</div>
+    </div>
+
+    <div class="direcionamento" data-office="dinizhenn" style="display:none">
+      <h3 style="font-family:var(--ff-display);color:var(--gold);font-size:17px;margin:34px 0 14px;">Frases fixadas</h3>
+      <p class="intro" style="margin-bottom:16px;">Não precisa decorar palavra por palavra, mas a ideia e a ordem de cada uma dessas falas foi combinada com o Thiago, o Carlos e a Dra. Gabriela, e funciona melhor se seguir essa lógica.</p>
+
+      <div class="offer-group">
+        <h3>A virada de mindset: risco de não fazer, não só o benefício de fazer</h3>
+        <div class="quote"><span>Se você deixa isso pra depois, você acha que já está tudo resolvido. Só que a pendência aparece justamente no pior momento: quando você precisa vender um imóvel, recebe uma herança, ou algo assim mais urgente, e descobre que ainda falta essa etapa aqui no Brasil.</span></div>
+      </div>
+
+      <div class="offer-group">
+        <h3>Separando o workshop da consulta individual</h3>
+        <div class="quote"><span>Hoje eu vou te explicar como funciona, tirar suas dúvidas e te mostrar o caminho. Mas o serviço em si vai ser individualizado: cada caso é um caso, depende de uma análise técnica pra saber quais documentos são necessários no seu caso específico.</span></div>
+        <div class="quote"><span>Por isso, hoje você garante sua vaga com o sinal, e a gente marca uma consulta individual pra entender seu caso a fundo. Aí sim, eu te explico os próximos passos certos pro seu caso.</span></div>
+      </div>
+
+      <div class="offer-group">
+        <h3>Chamada pra oferta</h3>
+        <div class="quote"><span>Por vocês serem parceiros da comunidade da ABEU e estarem prestigiando este evento, vocês têm uma condição especial disponível só hoje: o valor do serviço, que a própria tabela da OAB indica em torno de 950 dólares, fica em 600 dólares. E pra garantir sua vaga nessa condição, você reserva com um sinal de apenas 50 dólares.</span></div>
+        <div class="quote"><span>E além disso, vocês ganham uma análise previdenciária e de saída fiscal com a Dra. Gabriela, que normalmente custa 100 dólares, sem custo nenhum, pros primeiros que fecharem hoje.</span></div>
+        <div class="quote"><span>Se você já tem outro serviço com a gente, ou fechar mais de um agora (por exemplo, casamento e um segundo filho), o segundo serviço sai com 50% de desconto.</span></div>
+      </div>
+
+      <div class="offer-group">
+        <h3>Forma de pagamento</h3>
+        <div class="quote"><span>Você pode parcelar no seu cartão de crédito americano, em até 10 parcelas semanais, sem precisar usar o limite do seu cartão.</span></div>
+      </div>
+
+      <h3 style="font-family:var(--ff-display);color:var(--gold);font-size:17px;margin:34px 0 14px;">Pontos de estudo</h3>
+
+      <div class="acc-item open">
+        <button class="acc-q"><span>Como o lead chega até aqui (contexto do funil)</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>Sem tráfego pago. O convite vai direto pro grupo de WhatsApp do workshop.</p><ul>
+          <li>Foi feito um disparo de mensagens pra mais de 2.000 contatos (leads antigos e base da ABEU).</li>
+          <li>A taxa de entrega é baixa (o WhatsApp restringe volume de disparo), então é esperado que só uma parte receba de fato. Isso é normal, não é sinal de que algo deu errado.</li>
+          <li>Quem confirma interesse ("Quero participar") entra automaticamente no grupo do workshop.</li>
+        </ul></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Quantos "primeiros" anunciar (regra da escassez)</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>Antes de anunciar a condição, veja quantas pessoas estão de fato participando ao vivo, e ajuste na hora (não precisa estar escrito no slide):</p><ul>
+          <li>Mais de 30 participantes: fale "10 primeiros".</li>
+          <li>Entre 10 e 30: fale "5 primeiros".</li>
+          <li>Menos de 10: fale "3 primeiros".</li>
+        </ul></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Como vai funcionar a transmissão</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>Não é uma reunião comum: a equipe compartilha a tela, tipo uma transmissão.</p><ul>
+          <li>Chegue um pouco antes pra alinhar como vai funcionar esse compartilhamento e quem fala quando.</li>
+          <li>Celular no silencioso durante a apresentação.</li>
+          <li>Mas deixe o grupo do WhatsApp do workshop aberto: qualquer recado da equipe durante a live vem por lá.</li>
+          <li>A sessão vai ser gravada e reaproveitada depois.</li>
+        </ul></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Nome técnico do serviço</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>Internamente (contrato, sistema) o nome correto do serviço é <b>Retificação de Registro Civil</b>.</p></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Por que chamar de "análise", não "diagnóstico" nem "consulta"</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>Foi decisão do grupo: "análise" soa mais direto e fácil de entender pro público (que é um público mais velho), então use sempre essa palavra pro bônus com a Dra. Gabriela.</p></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Palavras pra evitar</span><span class="plus">+</span></button>
+        <div class="acc-a"><ul>
+          <li>Evite "grátis" ou "promoção". Prefira "vocês ganham" e "condição especial" (é uma condição por ser parceria com a ABEU, não uma promoção qualquer).</li>
+          <li>Não prometa que não vai ter custo nenhum a mais. Deixe claro que isso é avaliado caso a caso, na consulta individual.</li>
+          <li>Não precisa se aprofundar tecnicamente demais na live, isso fica pra consulta individual.</li>
+        </ul></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-q"><span>Se perguntarem sobre logística</span><span class="plus">+</span></button>
+        <div class="acc-a"><p>É tudo online, não existe nenhuma necessidade de deslocamento presencial em lugar nenhum.</p></div>
+      </div>
     </div>
   </section>
 
