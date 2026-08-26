@@ -49,6 +49,11 @@ var OFFICES = [
         id: "traslado-1908",
         name: "Traslado de Registro Civil · 19/08/2026",
         docId: "traslado-1908"
+      },
+      {
+        id: "aposentadoria-0209",
+        name: "2 Aposentadorias no Exterior · 02/09/2026",
+        docId: "aposentadoria-0209"
       }
     ]
   }
@@ -144,7 +149,8 @@ function _buildAdminOffice(){
         // dono de verdade desse workshop, pra saber qual conteudo mostrar
         // (funil/copies/roteiro/oferta/objeções/resultados) quando ele for
         // selecionado no modo admin. Ver _selectWorkshop.
-        realOfficeId: o.id
+        realOfficeId: o.id,
+        realWorkshopId: w.id
       });
     });
   });
@@ -223,15 +229,26 @@ function _setupGate(){
 // ver o proprio conteudo (funil, copies, roteiro, oferta, objecoes,
 // resultados). Cada bloco especifico de um escritorio carrega
 // data-office="id-do-escritorio"; no modo admin (visao geral) mostra tudo.
-function _applyOfficeVisibility(office){
+// Alguns escritorios (o DHA, por exemplo) tem mais de um workshop, entao
+// blocos especificos de UM workshop tambem carregam data-workshop="id" -
+// um bloco sem data-workshop e comum a todos os workshops daquele
+// escritorio (titulos, intros compartilhadas etc).
+function _applyOfficeVisibility(office, workshopId){
   var showAll = office.id === "admin";
   document.querySelectorAll("[data-office]").forEach(function(el){
-    el.style.display = (showAll || el.dataset.office === office.id) ? "" : "none";
+    var officeOk = showAll || el.dataset.office === office.id;
+    var workshopOk = !el.dataset.workshop || !workshopId || el.dataset.workshop === workshopId;
+    el.style.display = (officeOk && workshopOk) ? "" : "none";
   });
-  // O painel 3 do DHA virou material de estudo completo pro Dr. Marcelo,
-  // não só um cronograma, então o rotulo da aba muda pra deixar isso claro.
+  // O painel 3 do workshop de Traslado (Dr. Marcelo) virou material de
+  // estudo completo, nao so um cronograma, entao o rotulo da aba muda pra
+  // deixar isso claro. Os outros workshops do DHA continuam so "Roteiro"
+  // ate terem o mesmo tipo de material.
   var tab3Label = document.getElementById("tab3-label");
-  if(tab3Label) tab3Label.textContent = office.id === "dinizhenn" ? "Roteiro & Direcionamento" : "Roteiro";
+  if(tab3Label){
+    tab3Label.textContent = (office.id === "dinizhenn" && workshopId === "traslado-1908")
+      ? "Roteiro & Direcionamento" : "Roteiro";
+  }
 }
 
 function _initOffice(office){
@@ -290,14 +307,14 @@ function _selectWorkshop(office, workshop){
   var key = workshop.fullDocId || (office.id + "_" + workshop.docId);
   _docRef = doc(_fbDb, "workshopfs", key);
   _startLiveSync();
-  // no modo admin, o conteudo dos paineis (funil, copies, roteiro, oferta,
-  // objeções, resultados) precisa acompanhar o workshop escolhido no
-  // seletor, mostrando so o escritorio dono dele. Sem isso, ficava sempre
-  // mostrando tudo junto (os dois escritorios), mesmo depois de trocar de
-  // workshop no seletor.
-  if(office.id === "admin"){
-    _applyOfficeVisibility({ id: workshop.realOfficeId || office.id });
-  }
+  // o conteudo dos paineis (funil, copies, roteiro, oferta, objeções,
+  // resultados) precisa acompanhar o workshop escolhido no seletor, tanto
+  // no modo admin (entre escritorios) quanto dentro de um mesmo escritorio
+  // com mais de um workshop (ex: DHA). Sem isso, ficava sempre mostrando
+  // tudo junto, mesmo depois de trocar de workshop no seletor.
+  var realOfficeId = workshop.realOfficeId || office.id;
+  var realWorkshopId = workshop.realWorkshopId || workshop.id;
+  _applyOfficeVisibility({ id: realOfficeId }, realWorkshopId);
 }
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
