@@ -87,15 +87,21 @@ function _applyRemoteEdits(edits){
   });
 }
 
+// id do result-card do workshop atual (ver _selectWorkshop). Sem isso,
+// _applyRemoteResults atualizava TODOS os .result-input da pagina que
+// batessem o data-rkey, vazando os numeros de um workshop pros campos
+// (escondidos, mas com o mesmo rkey "leads"/"vendas"/etc) de outro.
+var _currentResultCardId = null;
+
 function _applyRemoteResults(results){
   results = results || {};
   _resultInputs.forEach(function(input){
     if(document.activeElement === input) return;
+    var card = input.closest(".result-card");
+    if(_currentResultCardId && card && card.id !== _currentResultCardId) return;
     var rkey = input.dataset.rkey;
-    if(Object.prototype.hasOwnProperty.call(results, rkey)){
-      var val = String(results[rkey]);
-      if(input.value !== val) input.value = val;
-    }
+    var val = Object.prototype.hasOwnProperty.call(results, rkey) ? String(results[rkey]) : "";
+    if(input.value !== val) input.value = val;
   });
 }
 
@@ -240,13 +246,13 @@ function _applyOfficeVisibility(office, workshopId){
     var workshopOk = !el.dataset.workshop || !workshopId || el.dataset.workshop === workshopId;
     el.style.display = (officeOk && workshopOk) ? "" : "none";
   });
-  // O painel 3 do workshop de Traslado (Dr. Marcelo) virou material de
-  // estudo completo, nao so um cronograma, entao o rotulo da aba muda pra
-  // deixar isso claro. Os outros workshops do DHA continuam so "Roteiro"
-  // ate terem o mesmo tipo de material.
+  // Os workshops do DHA que ja tiveram (ou vao ter) reuniao de alinhamento
+  // viram material de estudo completo no painel 3, nao so um cronograma,
+  // entao o rotulo da aba muda pra deixar isso claro.
+  var _WORKSHOPS_COM_DIRECIONAMENTO = ["traslado-1908", "aposentadoria-0209"];
   var tab3Label = document.getElementById("tab3-label");
   if(tab3Label){
-    tab3Label.textContent = (office.id === "dinizhenn" && workshopId === "traslado-1908")
+    tab3Label.textContent = (office.id === "dinizhenn" && _WORKSHOPS_COM_DIRECIONAMENTO.indexOf(workshopId) !== -1)
       ? "Roteiro & Direcionamento" : "Roteiro";
   }
 }
@@ -301,12 +307,6 @@ function _initOffice(office){
 }
 
 function _selectWorkshop(office, workshop){
-  // no modo admin, cada workshop ja carrega o fullDocId com a chave real do
-  // escritorio dono do conteudo (ver _buildAdminOffice); nos escritorios
-  // normais isso fica vazio e a chave continua sendo montada como sempre.
-  var key = workshop.fullDocId || (office.id + "_" + workshop.docId);
-  _docRef = doc(_fbDb, "workshopfs", key);
-  _startLiveSync();
   // o conteudo dos paineis (funil, copies, roteiro, oferta, objeções,
   // resultados) precisa acompanhar o workshop escolhido no seletor, tanto
   // no modo admin (entre escritorios) quanto dentro de um mesmo escritorio
@@ -315,6 +315,17 @@ function _selectWorkshop(office, workshop){
   var realOfficeId = workshop.realOfficeId || office.id;
   var realWorkshopId = workshop.realWorkshopId || workshop.id;
   _applyOfficeVisibility({ id: realOfficeId }, realWorkshopId);
+  // precisa ser definido ANTES de _startLiveSync: o onSnapshot pode
+  // responder de forma sincrona (ou quase), e _applyRemoteResults usa
+  // esse id pra saber em qual result-card escrever.
+  _currentResultCardId = "result-card-" + realWorkshopId;
+
+  // no modo admin, cada workshop ja carrega o fullDocId com a chave real do
+  // escritorio dono do conteudo (ver _buildAdminOffice); nos escritorios
+  // normais isso fica vazio e a chave continua sendo montada como sempre.
+  var key = workshop.fullDocId || (office.id + "_" + workshop.docId);
+  _docRef = doc(_fbDb, "workshopfs", key);
+  _startLiveSync();
 }
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
