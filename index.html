@@ -196,7 +196,88 @@
 
       <div class="funnel-step" style="--w:24%">
         <div class="funnel-bar"><span class="funnel-n">6</span><span class="funnel-label">Acompanhamento pós-workshop</span></div>
-        <p class="funnel-desc">⚠️ Nota interna: falta confirmar se esse lead entra em CRM/planilha (esse workshop tem tráfego pago, diferente do de Traslado) ou se o acompanhamento também é manual pelo WhatsApp.</p>
+        <p class="funnel-desc">Quem não participou ao vivo recebe o replay no grupo, disponível só até o fim de semana. Ao se cadastrar pra assistir, recebe uma mensagem privada convidando pra agendar uma consulta individual com a Dra. Gabriela.</p>
+        <div class="funnel-extra">
+          <a class="real-link" href="#cadencia-replay-apos">Ver cadência de replay</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card" id="cadencia-lembretes-apos" style="margin-top:30px;display:none" data-office="dinizhenn" data-workshop="aposentadoria-0209">
+      <div class="day-header">
+        <span class="day-tag">1 DIA ANTES · 01/09</span>
+        <h3>Lembrete de véspera</h3>
+        <div class="objective">Objetivo: confirmar que a pessoa está no grupo e lembrar do encontro do dia seguinte. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá. Tudo bem?</div>
+        <div class="bubble">Aqui é do Escritório Diniz &amp; Henn Advogados. Seja muito bem-vindo(a)!</div>
+        <div class="bubble">Estamos entrando em contato para confirmar que você já está no grupo referente ao encontro que acontecerá amanhã.</div>
+        <div class="bubble"><b>Horário:</b> 19h em Portugal, Inglaterra e Irlanda | 20h em França, Espanha, Itália e Alemanha</div>
+        <div class="bubble">O encontro será online, pelo Google Meet, e o link de acesso será enviado por este número antes do início.</div>
+        <div class="bubble">Até amanhã!</div>
+      </div>
+    </div>
+
+    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <div class="day-header">
+        <span class="day-tag">NO DIA · 02/09</span>
+        <h3>É hoje</h3>
+        <div class="objective">Objetivo: lembrar que o encontro é hoje e passar o link de acesso. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá.</div>
+        <div class="bubble">É hoje o nosso encontro.</div>
+        <div class="bubble">Acesse pelo link:</div>
+        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
+      </div>
+    </div>
+
+    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <div class="day-header">
+        <span class="day-tag">5 MINUTOS ANTES · 02/09</span>
+        <h3>Já vai começar</h3>
+        <div class="objective">Objetivo: garantir que a pessoa entre na call, com o link em mãos. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">O evento já começou.</div>
+        <div class="bubble">Acesse pelo link:</div>
+        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
+      </div>
+    </div>
+
+    <div class="day-card" id="cadencia-replay-apos" style="margin-top:30px;display:none" data-office="dinizhenn" data-workshop="aposentadoria-0209">
+      <div class="day-header">
+        <span class="day-tag">REPLAY · GRUPO</span>
+        <h3>Aviso do replay no grupo</h3>
+        <div class="objective">Objetivo: avisar no grupo que o replay do workshop está disponível, com prazo limitado (só durante o fim de semana), pra quem não participou ao vivo ou quer rever algum ponto.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Boa noite pessoal!</div>
+        <div class="bubble">Como algumas pessoas não conseguiram participar ao vivo e pediram para assistir, <i>disponibilizamos o replay do workshop.</i></div>
+        <div class="bubble"><b>O replay ficará disponível somente durante este final de semana.</b></div>
+        <div class="bubble">O nosso workshop foi um sucesso.</div>
+        <div class="bubble">Tivemos uma participação incrível durante o encontro, surgiram várias dúvidas importantes.</div>
+        <div class="bubble">Foram muitas histórias diferentes e perguntas sobre cenários diversos.</div>
+        <div class="bubble">Se você não conseguiu acompanhar ou quer rever algum ponto, aproveite enquanto ele está disponível:</div>
+        <div class="bubble">https://dinizhennadvogados.com/replay-plan-previdenciario/assistir/</div>
+      </div>
+    </div>
+
+    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <div class="day-header">
+        <span class="day-tag">REPLAY · APÓS CADASTRO</span>
+        <h3>Confirmação e oferta de agendamento</h3>
+        <div class="objective">Objetivo: confirmar o cadastro de quem aplicou pra assistir ao replay e oferecer o agendamento de uma consulta individual com a Dra. Gabriela. Enviada automaticamente no privado quando a pessoa se cadastra na página do replay. Quem toca em "Sim, quero agendar" vai direto pro agendamento autônomo; quem agenda passa a receber os lembretes da cadência de agendamento.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá, {{nome}}.</div>
+        <div class="bubble">Seu cadastro para receber o replay do workshop foi registrado.</div>
+        <div class="bubble">Gostaria de agendar uma conversa individual com a Dra. Gabriela?</div>
+        <div class="bubble buttons">
+          <div class="btn-opt">Não tenho interesse</div>
+          <a class="btn-opt" href="https://api.leadconnectorhq.com/widget/booking/TztCE6Igv7E8QTSMrDnI" target="_blank" rel="noopener">Sim, quero agendar</a>
+        </div>
       </div>
     </div>
 

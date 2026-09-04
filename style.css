@@ -603,6 +603,32 @@ main{
 }
 .poll-opt:hover{background:#ffffff0a;}
 
+/* ── Botões de resposta rápida no estilo WhatsApp ─────── */
+.bubble.buttons{
+  max-width:92%;
+  background:#1e2532;
+  border:1px solid #2f3a4d;
+  border-radius:14px;
+  padding:6px;
+}
+.btn-opt{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--wa);
+  padding:12px;
+  border-radius:10px;
+  text-decoration:none;
+  cursor:pointer;
+}
+.btn-opt + .btn-opt{
+  border-top:1px solid #ffffff17;
+}
+.btn-opt:hover{background:#ffffff0a;}
+
 /* ── Nota interna ──────────────────────────────────────── */
 .note{
   font-size:13px;
