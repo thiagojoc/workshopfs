@@ -649,9 +649,31 @@ main{
   margin-bottom:18px;
 }
 .day-header{
-  padding:16px 20px 14px;
+  position:relative;
+  padding:16px 54px 14px 20px;
   border-bottom:1px solid var(--border);
 }
+.copy-msg-btn{
+  position:absolute;
+  top:12px;
+  right:14px;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  cursor:pointer;
+  padding:0;
+  border-radius:7px;
+  opacity:.6;
+  transition:opacity .15s,background .15s,color .15s;
+}
+.copy-msg-btn svg{width:16px;height:16px;}
+.copy-msg-btn:hover{opacity:1;background:var(--bg2);color:var(--gold);}
+.copy-msg-btn.copied{opacity:1;color:var(--wa);}
 .day-tag{
   display:inline-block;
   font-size:11px;

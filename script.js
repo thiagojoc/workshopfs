@@ -718,6 +718,7 @@ document.addEventListener("DOMContentLoaded", function(){
   setupEditableContent();
   setupResultsPanel();
   setupLightbox();
+  setupDayCardCopyButtons();
   _setupGate();
 });
 
@@ -741,6 +742,110 @@ function setupLightbox(){
   overlay.addEventListener("click", function(){
     overlay.classList.remove("show");
     img.src = "";
+  });
+}
+
+// ── COPIAR MENSAGEM INTEIRA (botão nas fichas de dia) ──────────────
+// Converte o HTML de uma bolha em texto puro: <br> vira quebra de linha,
+// <li> vira "- item", o resto das tags é descartado mas o texto fica.
+function _htmlToPlainText(html){
+  var div = document.createElement("div");
+  div.innerHTML = html;
+  div.querySelectorAll("br").forEach(function(br){ br.replaceWith("\n"); });
+  div.querySelectorAll("li").forEach(function(li){
+    li.prepend("- ");
+    li.append("\n");
+  });
+  return div.textContent.replace(/\n{3,}/g, "\n\n").trim();
+}
+
+// Enquete e bolha de botões não são texto corrido, têm campos próprios
+// (pergunta + opções, ou só as opções), então viram texto linha a linha.
+function _bubbleToText(bubble){
+  var pollQuestion = bubble.querySelector(".poll-question");
+  if(pollQuestion){
+    var lines = [];
+    var pollTitle = bubble.querySelector(".poll-title");
+    if(pollTitle) lines.push(pollTitle.textContent.trim());
+    lines.push(pollQuestion.textContent.trim());
+    bubble.querySelectorAll(".poll-opt").forEach(function(opt){
+      lines.push("- " + opt.textContent.trim());
+    });
+    return lines.join("\n");
+  }
+  var btnOpts = bubble.querySelectorAll(".btn-opt");
+  if(btnOpts.length){
+    var blines = [];
+    btnOpts.forEach(function(opt){ blines.push("- " + opt.textContent.trim()); });
+    return blines.join("\n");
+  }
+  return _htmlToPlainText(bubble.innerHTML);
+}
+
+// Junta todas as bolhas de uma ficha (uma mensagem inteira, não balão
+// por balão) numa string só, cada bolha separada por linha em branco.
+function _dayCardToText(card){
+  var body = card.querySelector(".day-body");
+  if(!body) return "";
+  var parts = [];
+  body.querySelectorAll(":scope > .bubble").forEach(function(b){
+    var t = _bubbleToText(b);
+    if(t) parts.push(t);
+  });
+  return parts.join("\n\n");
+}
+
+function _copyToClipboard(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(text).catch(function(){
+      return _copyFallback(text);
+    });
+  }
+  return _copyFallback(text);
+}
+
+function _copyFallback(text){
+  return new Promise(function(resolve){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    resolve();
+  });
+}
+
+// Ícone sutil de "duas folhinhas" no canto de cada ficha, pra copiar a
+// mensagem inteira de uma vez (não balão por balão).
+function setupDayCardCopyButtons(){
+  document.querySelectorAll(".day-card").forEach(function(card){
+    if(card.querySelector(".copy-msg-btn")) return;
+    var header = card.querySelector(".day-header");
+    if(!header) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy-msg-btn";
+    btn.title = "Copiar mensagem inteira";
+    btn.setAttribute("aria-label", "Copiar mensagem inteira");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var text = _dayCardToText(card);
+      var originalTitle = btn.title;
+      _copyToClipboard(text).then(function(){
+        btn.classList.add("copied");
+        btn.title = "Copiado!";
+        setTimeout(function(){
+          btn.classList.remove("copied");
+          btn.title = originalTitle;
+        }, 1600);
+      });
+    });
+    header.appendChild(btn);
   });
 }
 
