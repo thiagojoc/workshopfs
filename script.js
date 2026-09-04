@@ -55,6 +55,15 @@ var OFFICES = [
         name: "2 Aposentadorias no Exterior · 02/09/2026",
         docId: "aposentadoria-0209"
       }
+    ],
+    // Workshops anteriores do DHA que so entram no comparativo (sem funil,
+    // sem as outras abas): o Thiago preenche os resultados direto na
+    // propria tabela, ver _setupComparativo.
+    compareExtras: [
+      { id: "saida-fiscal-1504", name: "Workshop Saída Fiscal · 15/04/2026", fullDocId: "dinizhenn_saida-fiscal-1504" },
+      { id: "planejamento-prev-0705", name: "Workshop Planejamento Previdenciário · 07/05/2026", fullDocId: "dinizhenn_planejamento-prev-0705" },
+      { id: "saida-fiscal-1405", name: "Workshop Saída Fiscal · 14/05/2026", fullDocId: "dinizhenn_saida-fiscal-1405" },
+      { id: "saida-fiscal-2105", name: "Workshop Saída Fiscal · 21/05/2026", fullDocId: "dinizhenn_saida-fiscal-2105" }
     ]
   }
 ];
@@ -142,6 +151,7 @@ var ADMIN_CODE = "FS2026";
 
 function _buildAdminOffice(){
   var allWorkshops = [];
+  var allExtras = [];
   OFFICES.forEach(function(o){
     o.workshops.forEach(function(w){
       allWorkshops.push({
@@ -159,6 +169,13 @@ function _buildAdminOffice(){
         realWorkshopId: w.id
       });
     });
+    (o.compareExtras || []).forEach(function(e){
+      allExtras.push({
+        id: o.id + "__" + e.id,
+        name: o.name + " · " + e.name,
+        fullDocId: e.fullDocId
+      });
+    });
   });
   return {
     id: "admin",
@@ -168,7 +185,8 @@ function _buildAdminOffice(){
       "Visão geral · todos os escritórios",
       "Acesso Thiago e Carlos"
     ],
-    workshops: allWorkshops
+    workshops: allWorkshops,
+    compareExtras: allExtras
   };
 }
 
@@ -347,7 +365,7 @@ function _selectWorkshop(office, workshop){
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
 var _compareUnsubs = [];
-var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas"];
+var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "faturamento"];
 
 function _setupComparativo(office){
   _compareUnsubs.forEach(function(unsub){ unsub(); });
@@ -357,32 +375,70 @@ function _setupComparativo(office){
   var empty = document.getElementById("compare-empty");
   if(!tbody || !empty) return;
 
-  if(!office.workshops.length){
+  // Workshops de verdade (com funil, abas etc) entram como linha só de
+  // leitura, puxando o que foi preenchido na aba Resultados de cada um.
+  // As "extras" (compareExtras) não têm workshop nem aba própria, então
+  // a linha do comparativo é a própria interface: os campos já nascem
+  // editáveis, salvando direto no documento daquele workshop.
+  var extras = office.compareExtras || [];
+  var allRows = office.workshops.concat(extras);
+
+  if(!allRows.length){
     tbody.innerHTML = "";
     empty.style.display = "block";
     return;
   }
   empty.style.display = "none";
 
-  tbody.innerHTML = office.workshops.map(function(w){
+  tbody.innerHTML = allRows.map(function(w){
+    var isExtra = extras.indexOf(w) !== -1;
+    var cells = _RESULT_COLS.map(function(col){
+      return isExtra
+        ? '<td><input type="text" class="compare-input" data-rkey="' + col + '" placeholder="-"></td>'
+        : '<td>-</td>';
+    }).join("");
     return '<tr id="compare-row-' + w.id + '">' +
       '<td class="compare-name">' + w.name + '</td>' +
-      _RESULT_COLS.map(function(){ return '<td>-</td>'; }).join("") +
+      cells +
       '</tr>';
   }).join("");
 
-  office.workshops.forEach(function(w){
+  allRows.forEach(function(w){
+    var isExtra = extras.indexOf(w) !== -1;
     var key = w.fullDocId || (office.id + "_" + w.docId);
     var wDocRef = doc(_fbDb, "workshopfs", key);
+    var row = document.getElementById("compare-row-" + w.id);
+
+    if(isExtra && row){
+      row.querySelectorAll(".compare-input").forEach(function(input){
+        input.addEventListener("blur", function(){
+          var patch = { results: {} };
+          patch.results[input.dataset.rkey] = input.value;
+          setDoc(wDocRef, patch, { merge: true }).catch(function(err){
+            console.warn("Não deu pra salvar o comparativo de " + w.id, err);
+          });
+        });
+      });
+    }
+
     var unsub = onSnapshot(wDocRef, function(snap){
       var results = (snap.exists() ? snap.data().results : {}) || {};
-      var row = document.getElementById("compare-row-" + w.id);
-      if(!row) return;
-      var cells = row.querySelectorAll("td");
-      _RESULT_COLS.forEach(function(col, i){
-        var val = results[col];
-        cells[i + 1].textContent = (val === undefined || val === null || val === "") ? "-" : val;
-      });
+      var thisRow = document.getElementById("compare-row-" + w.id);
+      if(!thisRow) return;
+      if(isExtra){
+        thisRow.querySelectorAll(".compare-input").forEach(function(input){
+          if(document.activeElement === input) return;
+          var val = results[input.dataset.rkey];
+          val = (val === undefined || val === null) ? "" : String(val);
+          if(input.value !== val) input.value = val;
+        });
+      }else{
+        var cells = thisRow.querySelectorAll("td");
+        _RESULT_COLS.forEach(function(col, i){
+          var val = results[col];
+          cells[i + 1].textContent = (val === undefined || val === null || val === "") ? "-" : val;
+        });
+      }
     }, function(err){
       console.warn("Não deu pra carregar o comparativo de " + w.id, err);
     });
