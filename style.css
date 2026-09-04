@@ -5,7 +5,7 @@
   --card2:#1d2230;
   --border:#262c3a;
   --text:#eef0f5;
-  --muted:#8890a3;
+  --muted:#c3c8d6;
   --gold:#d9a94e;
   --gold-dim:#d9a94e22;
   --green:#3ecf8e;
@@ -134,7 +134,7 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
   margin:0 0 8px;
 }
 .gate-box p{
-  font-size:13.5px;
+  font-size:14.5px;
   color:var(--muted);
   margin:0 0 18px;
 }
@@ -573,7 +573,7 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
   background:transparent;
   color:var(--muted);
   font-family:var(--ff-body);
-  font-size:13.5px;
+  font-size:14.5px;
   font-weight:600;
   cursor:pointer;
   transition:.15s;
@@ -987,7 +987,7 @@ main{
   max-height:0;
   overflow:hidden;
   transition:max-height .25s ease, padding .25s ease;
-  font-size:13.5px;
+  font-size:14.5px;
   color:var(--muted);
   padding:0 18px;
 }
@@ -1053,7 +1053,7 @@ main{
 }
 .tag-chip b{color:var(--gold);font-weight:700;}
 .admin-list{
-  font-size:12.5px;
+  font-size:13.5px;
   color:var(--muted);
 }
 .admin-list b{color:var(--text);}
