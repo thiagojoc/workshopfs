@@ -616,6 +616,36 @@ var _COMPARE_METRICS = [
   { key: "investimento", label: "Investimento", color: "#e2665f" }
 ];
 
+// Abreviação do "tipo" do workshop, pro rótulo do eixo do gráfico não
+// ficar enorme. A data (que já vem no nome, "· DD/MM/AAAA") continua,
+// só encurtada pra "DD/MM", porque é ela que diferencia duas edições
+// do mesmo tipo (ex: os dois workshops de Planejamento Previdenciário).
+var _WORKSHOP_ABBR = [
+  { match: /aux[ií]lio\s+maternidade/i, abbr: "AM" },
+  { match: /sa[ií]da\s+fiscal/i, abbr: "SF" },
+  { match: /aposentadoria/i, abbr: "PP" },
+  { match: /traslado\s+de\s+registro\s+civil/i, abbr: "TRC" },
+  { match: /planejamento\s+previdenci[aá]rio/i, abbr: "PP" }
+];
+function _abbreviateWorkshopName(fullName){
+  var parts = String(fullName || "").split(" · ");
+  var datePart = null;
+  if(parts.length > 1 && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(parts[parts.length - 1].trim())){
+    datePart = parts.pop().trim();
+  }
+  var typePart = parts[parts.length - 1] || fullName;
+  var abbr = null;
+  for(var i = 0; i < _WORKSHOP_ABBR.length; i++){
+    if(_WORKSHOP_ABBR[i].match.test(typePart)){ abbr = _WORKSHOP_ABBR[i].abbr; break; }
+  }
+  if(!abbr) abbr = typePart.length > 14 ? typePart.slice(0, 13) + "…" : typePart;
+  if(datePart){
+    var shortDate = datePart.split("/").slice(0, 2).join("/");
+    return abbr + " · " + shortDate;
+  }
+  return abbr;
+}
+
 function _renderCompareChart(){
   var container = document.getElementById("compare-chart");
   if(!container) return;
@@ -642,39 +672,49 @@ function _renderCompareChart(){
     maxByMetric[m.key] = Math.max.apply(null, data.map(function(d){ return d.values[m.key] || 0; }).concat([1]));
   });
 
-  var barH = 13;
+  var barW = 15;
   var barGap = 4;
-  var metricsH = _COMPARE_METRICS.length * (barH + barGap);
-  var rowH = metricsH + 44; // + espaço pro nome (topo) e ROI (rodapé)
-  var chartW = 980;
-  var labelW = 230;
-  var barAreaW = chartW - labelW - 90;
-  var svgH = data.length * rowH + 10;
+  var groupInnerW = _COMPARE_METRICS.length * (barW + barGap) - barGap;
+  var groupGap = 34;
+  var groupW = groupInnerW + groupGap;
+  var maxBarH = 190;
+  var topPad = 58;    // espaço pro valor (rotacionado) em cima da barra mais alta
+  var baseY = topPad + maxBarH;
+  var labelH = 34;    // nome do workshop (foreignObject, 2 linhas)
+  var roiH = 20;       // linha do ROI
+  var chartW = data.length * groupW + 20;
+  var svgH = baseY + 10 + labelH + roiH;
 
-  // O nome do workshop usa foreignObject (HTML dentro do SVG) em vez de
-  // <text>, porque <text> não quebra linha nem corta com reticências
-  // sozinho, então nomes longos ficavam por cima das barras.
+  // Colunas verticais, workshops no eixo de baixo. O nome do workshop usa
+  // foreignObject (HTML dentro do SVG) em vez de <text>, porque <text> não
+  // quebra linha nem corta com reticências sozinho.
   var bars = data.map(function(d, gi){
-    var groupY = 10 + gi * rowH;
-    var svg = '<foreignObject x="0" y="' + groupY + '" width="' + (labelW - 12) + '" height="34">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html">' + _escapeHtml(d.name) + '</div>' +
-    '</foreignObject>';
+    var groupX = 10 + gi * groupW;
+    var svg = "";
 
     _COMPARE_METRICS.forEach(function(m, mi){
       var val = d.values[m.key];
       var has = val !== null && val !== undefined;
-      var w = has ? Math.max(2, (val || 0) / maxByMetric[m.key] * barAreaW) : 0;
-      var y = groupY + mi * (barH + barGap);
-      svg += '<rect x="' + labelW + '" y="' + y + '" width="' + w + '" height="' + barH + '" rx="3" fill="' + m.color + '"></rect>' +
-        '<text x="' + (labelW + w + 6) + '" y="' + (y + barH - 2) + '" class="cc-val">' + (has ? _formatNumber(val) : "-") + '</text>';
+      var h = has ? Math.max(2, (val || 0) / maxByMetric[m.key] * maxBarH) : 0;
+      var x = groupX + mi * (barW + barGap);
+      var y = baseY - h;
+      svg += '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + h + '" rx="3" fill="' + m.color + '"></rect>';
+      if(has){
+        svg += '<text x="' + (x + barW / 2 + 4) + '" y="' + (y - 4) + '" class="cc-val" transform="rotate(-90 ' + (x + barW / 2 + 4) + ' ' + (y - 4) + ')">' + _formatNumber(val) + '</text>';
+      }
     });
+
+    svg += '<line x1="' + groupX + '" y1="' + baseY + '" x2="' + (groupX + groupInnerW) + '" y2="' + baseY + '" class="cc-axis"></line>';
+
+    svg += '<foreignObject x="' + groupX + '" y="' + (baseY + 6) + '" width="' + (groupInnerW + groupGap - 8) + '" height="' + labelH + '">' +
+      '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html cc-label-center">' + _escapeHtml(_abbreviateWorkshopName(d.name)) + '</div>' +
+    '</foreignObject>';
 
     var hasRoi = d.values.faturamento !== null && d.values.faturamento !== undefined &&
                  d.values.investimento !== null && d.values.investimento !== undefined;
     if(hasRoi){
       var roi = d.values.faturamento - d.values.investimento;
-      var roiY = groupY + metricsH + 12;
-      svg += '<text x="' + labelW + '" y="' + roiY + '" class="cc-roi ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">ROI: ' +
+      svg += '<text x="' + (groupX + groupInnerW / 2) + '" y="' + (baseY + labelH + 20) + '" class="cc-roi cc-roi-center ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">ROI: ' +
         (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi)) + '</text>';
     }
     return svg;

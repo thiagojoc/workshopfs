@@ -477,8 +477,11 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
   -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
 }
-.cc-val{font-size:11px;fill:var(--muted);dominant-baseline:middle;}
+.cc-label-center{text-align:center;}
+.cc-axis{stroke:var(--border);stroke-width:1;}
+.cc-val{font-size:10px;fill:var(--muted);text-anchor:start;}
 .cc-roi{font-size:12px;font-weight:700;}
+.cc-roi-center{text-anchor:middle;}
 .cc-roi-pos{fill:var(--wa);}
 .cc-roi-neg{fill:#e2665f;}
 .compare-empty{
