@@ -458,6 +458,19 @@ function _formatNumber(n){
   return n.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
 }
 
+// Versão compacta (20000 -> "20k", 6250 -> "6,3k") só pro valor em cima
+// de cada barrinha do gráfico: a coluna é estreita, e "20.000" por
+// extenso colidia com o número da coluna vizinha. A tabela do
+// comparativo continua mostrando o valor completo normalmente.
+function _formatCompact(n){
+  var abs = Math.abs(n);
+  if(abs >= 1000){
+    var v = Math.round(n / 100) / 10;
+    return _formatNumber(v).replace(/,0$/, "") + "k";
+  }
+  return _formatNumber(n);
+}
+
 function _escapeHtml(s){
   return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -618,6 +631,7 @@ var _COMPARE_METRICS = [
   { key: "roi", label: "ROI" }
 ];
 var _WORKSHOP_PALETTE = ["#d9a94e", "#5b8def", "#4fd1c5", "#25d366", "#f2a65a", "#e2665f", "#a78bfa", "#f472b6"];
+var _MINI_BAR_TRACK_PX = 96; // precisa bater com a altura de .mini-bar-track no CSS
 
 // Abreviação do "tipo" do workshop, pro rótulo embaixo de cada coluna
 // não ficar enorme. A data (que já vem no nome, "· DD/MM/AAAA") continua,
@@ -691,12 +705,19 @@ function _renderCompareChart(){
     var cols = data.map(function(d){
       var val = d.values[m.key];
       var has = val !== null && val !== undefined;
-      var pct = has ? Math.max(2, Math.abs(val) / maxVal * 100) : 0;
+      // altura em px direto (não %), porque % dentro de flex-column
+      // aninhado (coluna > track > barra) não resolvia direito: a
+      // barra do maior valor renderizava do mesmo tamanho que outras
+      // bem menores. Em px, contra uma faixa (.mini-bar-track) de
+      // altura fixa, o cálculo fica exato.
+      var barPx = has ? Math.max(3, Math.round(Math.abs(val) / maxVal * _MINI_BAR_TRACK_PX)) : 0;
       var neg = has && val < 0;
       return '' +
         '<div class="mini-bar-col">' +
-          '<div class="mini-bar-value">' + (has ? _formatNumber(val) : "-") + '</div>' +
-          '<div class="mini-bar' + (neg ? ' mini-bar-neg' : '') + '" style="height:' + pct + '%;background:' + d.color + '"></div>' +
+          '<div class="mini-bar-value">' + (has ? _formatCompact(val) : "-") + '</div>' +
+          '<div class="mini-bar-track">' +
+            '<div class="mini-bar' + (neg ? ' mini-bar-neg' : '') + '" style="height:' + barPx + 'px;background:' + d.color + '"></div>' +
+          '</div>' +
           '<div class="mini-bar-label">' + _escapeHtml(d.label) + '</div>' +
         '</div>';
     }).join("");
