@@ -57,13 +57,19 @@ var OFFICES = [
       }
     ],
     // Workshops anteriores do DHA que so entram no comparativo (sem funil,
-    // sem as outras abas): o Thiago preenche os resultados direto na
-    // propria tabela, ver _setupComparativo.
+    // sem as outras abas). Leads/vendas/faturamento sao os resultados
+    // finais que o Thiago ja preencheu, entao ficam fixos aqui no codigo;
+    // só o investimento continua editavel direto na tabela (ver
+    // _setupComparativo), porque ainda nao foi preenchido.
     compareExtras: [
-      { id: "saida-fiscal-1504", name: "Workshop Saída Fiscal · 15/04/2026", fullDocId: "dinizhenn_saida-fiscal-1504" },
-      { id: "planejamento-prev-0705", name: "Workshop Planejamento Previdenciário · 07/05/2026", fullDocId: "dinizhenn_planejamento-prev-0705" },
-      { id: "saida-fiscal-1405", name: "Workshop Saída Fiscal · 14/05/2026", fullDocId: "dinizhenn_saida-fiscal-1405" },
-      { id: "saida-fiscal-2105", name: "Workshop Saída Fiscal · 21/05/2026", fullDocId: "dinizhenn_saida-fiscal-2105" }
+      { id: "saida-fiscal-1504", name: "Workshop Saída Fiscal · 15/04/2026", fullDocId: "dinizhenn_saida-fiscal-1504",
+        fixedResults: { leads: "135", leadsAugeGrupo: "135", leadsPico: "53", vendas: "10", faturamento: "$6.000" } },
+      { id: "planejamento-prev-0705", name: "Workshop Planejamento Previdenciário · 07/05/2026", fullDocId: "dinizhenn_planejamento-prev-0705",
+        fixedResults: { leads: "50", leadsAugeGrupo: "50", leadsPico: "25", vendas: "5", faturamento: "$1.250" } },
+      { id: "saida-fiscal-1405", name: "Workshop Saída Fiscal · 14/05/2026", fullDocId: "dinizhenn_saida-fiscal-1405",
+        fixedResults: { leads: "95", leadsAugeGrupo: "95", leadsPico: "46", vendas: "13", faturamento: "$4.000" } },
+      { id: "saida-fiscal-2105", name: "Workshop Saída Fiscal · 21/05/2026", fullDocId: "dinizhenn_saida-fiscal-2105",
+        fixedResults: { leads: "97", leadsAugeGrupo: "97", leadsPico: "42", vendas: "10", faturamento: "$5.000" } }
     ]
   }
 ];
@@ -227,7 +233,8 @@ function _buildAdminOffice(){
       allExtras.push({
         id: o.id + "__" + e.id,
         name: o.name + " · " + e.name,
-        fullDocId: e.fullDocId
+        fullDocId: e.fullDocId,
+        fixedResults: e.fixedResults
       });
     });
   });
@@ -419,11 +426,70 @@ function _selectWorkshop(office, workshop){
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
 var _compareUnsubs = [];
-var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "faturamento"];
+var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "faturamento", "investimento"];
+var _compareRowData = {}; // { rowId: { name, faturamento:number|null, investimento:number|null } }, usado pro gráfico
+
+// Converte texto de dinheiro num número. Aceita "R$ 1.234,56", "$6.000",
+// "1250" etc: se tiver vírgula E ponto, o último dos dois é o separador
+// decimal; se só um deles aparecer, só conta como decimal quando tiver
+// exatamente 2 dígitos depois (senão é separador de milhar).
+function _parseMoney(str){
+  if(str === undefined || str === null) return null;
+  var s = String(str).trim();
+  if(!s) return null;
+  var neg = s.indexOf("-") !== -1;
+  s = s.replace(/[^\d,.]/g, "");
+  if(!s) return null;
+  var lastComma = s.lastIndexOf(",");
+  var lastDot = s.lastIndexOf(".");
+  if(lastComma !== -1 && lastDot !== -1){
+    s = lastComma > lastDot ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
+  }else if(lastComma !== -1){
+    s = (s.length - lastComma - 1 === 2) ? s.replace(",", ".") : s.replace(/,/g, "");
+  }else if(lastDot !== -1){
+    if(s.length - lastDot - 1 !== 2) s = s.replace(/\./g, "");
+  }
+  var n = parseFloat(s);
+  if(isNaN(n)) return null;
+  return neg ? -n : n;
+}
+
+function _formatNumber(n){
+  return n.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+}
+
+function _escapeHtml(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+// ROI = faturamento menos investimento. So calcula quando os dois valores
+// existem (senão fica "-"); atualiza a célula da linha e redesenha o
+// gráfico de performance.
+function _updateCompareRoi(rowId){
+  var row = document.getElementById("compare-row-" + rowId);
+  if(!row) return;
+  var roiCell = row.querySelector(".compare-roi");
+  if(roiCell){
+    var data = _compareRowData[rowId] || {};
+    if(data.faturamento === null || data.faturamento === undefined || data.investimento === null || data.investimento === undefined){
+      roiCell.textContent = "-";
+      roiCell.classList.remove("roi-neg", "roi-pos");
+    }else{
+      var roi = data.faturamento - data.investimento;
+      roiCell.textContent = (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi));
+      roiCell.classList.toggle("roi-neg", roi < 0);
+      roiCell.classList.toggle("roi-pos", roi > 0);
+    }
+  }
+  _renderCompareChart();
+}
 
 function _setupComparativo(office){
   _compareUnsubs.forEach(function(unsub){ unsub(); });
   _compareUnsubs = [];
+  _compareRowData = {};
 
   var tbody = document.getElementById("compare-tbody");
   var empty = document.getElementById("compare-empty");
@@ -431,29 +497,40 @@ function _setupComparativo(office){
 
   // Workshops de verdade (com funil, abas etc) entram como linha só de
   // leitura, puxando o que foi preenchido na aba Resultados de cada um.
-  // As "extras" (compareExtras) não têm workshop nem aba própria, então
-  // a linha do comparativo é a própria interface: os campos já nascem
-  // editáveis, salvando direto no documento daquele workshop.
+  // As "extras" (compareExtras) não têm workshop nem aba própria: leads/
+  // vendas/faturamento já são resultado final (fixos, ver OFFICES), só o
+  // investimento continua editável direto na tabela, que é a única
+  // interface que essas linhas têm.
   var extras = office.compareExtras || [];
   var allRows = office.workshops.concat(extras);
 
   if(!allRows.length){
     tbody.innerHTML = "";
     empty.style.display = "block";
+    _renderCompareChart();
     return;
   }
   empty.style.display = "none";
 
   tbody.innerHTML = allRows.map(function(w){
     var isExtra = extras.indexOf(w) !== -1;
+    var fixed = w.fixedResults || {};
     var cells = _RESULT_COLS.map(function(col){
-      return isExtra
-        ? '<td><input type="text" class="compare-input" data-rkey="' + col + '" placeholder="-"></td>'
-        : '<td>-</td>';
+      if(col === "investimento"){
+        return isExtra
+          ? '<td><input type="text" class="compare-input" data-rkey="investimento" placeholder="-"></td>'
+          : '<td>-</td>';
+      }
+      if(isExtra){
+        var val = fixed[col];
+        return '<td>' + (val === undefined || val === null || val === "" ? "-" : _escapeHtml(val)) + '</td>';
+      }
+      return '<td>-</td>';
     }).join("");
     return '<tr id="compare-row-' + w.id + '">' +
-      '<td class="compare-name">' + w.name + '</td>' +
+      '<td class="compare-name">' + _escapeHtml(w.name) + '</td>' +
       cells +
+      '<td class="compare-roi">-</td>' +
       '</tr>';
   }).join("");
 
@@ -462,6 +539,13 @@ function _setupComparativo(office){
     var key = w.fullDocId || (office.id + "_" + w.docId);
     var wDocRef = doc(_fbDb, "workshopfs", key);
     var row = document.getElementById("compare-row-" + w.id);
+    var fixed = w.fixedResults || {};
+
+    _compareRowData[w.id] = {
+      name: w.name,
+      faturamento: isExtra ? _parseMoney(fixed.faturamento) : null,
+      investimento: null
+    };
 
     if(isExtra && row){
       row.querySelectorAll(".compare-input").forEach(function(input){
@@ -472,6 +556,10 @@ function _setupComparativo(office){
             console.warn("Não deu pra salvar o comparativo de " + w.id, err);
           });
         });
+        input.addEventListener("input", function(){
+          _compareRowData[w.id].investimento = _parseMoney(input.value);
+          _updateCompareRoi(w.id);
+        });
       });
     }
 
@@ -481,10 +569,14 @@ function _setupComparativo(office){
       if(!thisRow) return;
       if(isExtra){
         thisRow.querySelectorAll(".compare-input").forEach(function(input){
-          if(document.activeElement === input) return;
-          var val = results[input.dataset.rkey];
-          val = (val === undefined || val === null) ? "" : String(val);
-          if(input.value !== val) input.value = val;
+          if(document.activeElement !== input){
+            var val = results[input.dataset.rkey];
+            val = (val === undefined || val === null) ? "" : String(val);
+            if(input.value !== val) input.value = val;
+          }
+          if(input.dataset.rkey === "investimento"){
+            _compareRowData[w.id].investimento = _parseMoney(input.value);
+          }
         });
       }else{
         var cells = thisRow.querySelectorAll("td");
@@ -492,12 +584,77 @@ function _setupComparativo(office){
           var val = results[col];
           cells[i + 1].textContent = (val === undefined || val === null || val === "") ? "-" : val;
         });
+        _compareRowData[w.id].faturamento = _parseMoney(results.faturamento);
+        _compareRowData[w.id].investimento = _parseMoney(results.investimento);
       }
+      _updateCompareRoi(w.id);
     }, function(err){
       console.warn("Não deu pra carregar o comparativo de " + w.id, err);
     });
     _compareUnsubs.push(unsub);
   });
+
+  _renderCompareChart();
+}
+
+// ── GRÁFICO DE PERFORMANCE (faturamento x investimento por workshop) ──
+function _renderCompareChart(){
+  var container = document.getElementById("compare-chart");
+  if(!container) return;
+
+  var rowEls = Array.prototype.slice.call(document.querySelectorAll("#compare-tbody tr"));
+  var data = rowEls.map(function(tr){
+    var rowId = tr.id.replace("compare-row-", "");
+    var d = _compareRowData[rowId] || {};
+    return { name: d.name || "", faturamento: d.faturamento, investimento: d.investimento };
+  }).filter(function(d){ return d.faturamento !== null && d.faturamento !== undefined; });
+
+  if(!data.length){
+    container.innerHTML = '<div class="compare-chart-empty">Preencha o faturamento de algum workshop pra ver o gráfico.</div>';
+    return;
+  }
+
+  var maxVal = Math.max.apply(null, data.map(function(d){
+    return Math.max(d.faturamento || 0, d.investimento || 0);
+  }).concat([1]));
+
+  var rowH = 64;
+  var chartW = 680;
+  var labelW = 220;
+  var barAreaW = chartW - labelW - 100;
+  var svgH = data.length * rowH + 10;
+
+  // O nome do workshop usa foreignObject (HTML dentro do SVG) em vez de
+  // <text>, porque <text> não quebra linha nem corta com reticências
+  // sozinho, então nomes longos ficavam por cima das barras.
+  var bars = data.map(function(d, i){
+    var y = 10 + i * rowH;
+    var fatW = Math.max(2, (d.faturamento || 0) / maxVal * barAreaW);
+    var hasInv = d.investimento !== null && d.investimento !== undefined;
+    var invW = hasInv ? Math.max(2, (d.investimento || 0) / maxVal * barAreaW) : 0;
+    var roi = hasInv ? d.faturamento - d.investimento : null;
+    var roiTxt = roi === null ? "" : ("ROI: " + (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi)));
+    var safeName = _escapeHtml(d.name);
+    var svg = '' +
+      '<foreignObject x="0" y="' + (y - 3) + '" width="' + (labelW - 12) + '" height="' + (rowH - 6) + '">' +
+        '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html">' + safeName + '</div>' +
+      '</foreignObject>' +
+      '<rect x="' + labelW + '" y="' + y + '" width="' + fatW + '" height="14" rx="3" class="cc-bar cc-bar-fat"></rect>' +
+      '<text x="' + (labelW + fatW + 6) + '" y="' + (y + 11) + '" class="cc-val">' + _formatNumber(d.faturamento || 0) + '</text>';
+    if(hasInv){
+      svg += '' +
+        '<rect x="' + labelW + '" y="' + (y + 19) + '" width="' + invW + '" height="14" rx="3" class="cc-bar cc-bar-inv"></rect>' +
+        '<text x="' + (labelW + invW + 6) + '" y="' + (y + 30) + '" class="cc-val">' + _formatNumber(d.investimento || 0) + '</text>';
+    }
+    if(roiTxt){
+      svg += '<text x="' + labelW + '" y="' + (y + 46) + '" class="cc-roi ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">' + roiTxt + '</text>';
+    }
+    return svg;
+  }).join("");
+
+  container.innerHTML =
+    '<div class="compare-chart-legend"><span class="cc-dot cc-dot-fat"></span>Faturamento<span class="cc-dot cc-dot-inv"></span>Investimento</div>' +
+    '<svg viewBox="0 0 ' + chartW + ' ' + svgH + '" class="compare-chart-svg" preserveAspectRatio="xMinYMin meet">' + bars + '</svg>';
 }
 
 document.addEventListener("DOMContentLoaded", function(){

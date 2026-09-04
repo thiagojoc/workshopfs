@@ -294,12 +294,26 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
   border-top:1px solid var(--border);
 }
 .link-field label{
-  display:block;
+  display:flex;
+  align-items:center;
+  gap:8px;
   font-size:14px;
   font-weight:600;
   color:var(--muted);
   margin-bottom:6px;
 }
+.link-pencil{
+  border:none;
+  background:none;
+  padding:2px 4px;
+  margin:0;
+  font-size:13px;
+  line-height:1;
+  color:var(--muted);
+  cursor:pointer;
+  opacity:.7;
+}
+.link-pencil:hover{color:var(--gold);opacity:1;}
 .result-input.result-input-text{
   background:var(--bg2);
   border:1px solid var(--border);
@@ -357,6 +371,7 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
 }
 .compare-table{
   width:100%;
+  min-width:820px;
   table-layout:fixed;
   border-collapse:collapse;
   font-size:13.5px;
@@ -395,6 +410,60 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
 }
 .compare-input:focus{outline:none;box-shadow:0 0 0 2px var(--gold);}
 .compare-input::placeholder{color:var(--muted);}
+.compare-roi{font-weight:700;}
+.compare-roi.roi-pos{color:var(--wa);}
+.compare-roi.roi-neg{color:#e2665f;}
+
+/* ── GRÁFICO DE PERFORMANCE (comparativo) ─────────────── */
+.compare-chart-title{
+  font-family:var(--ff-display);
+  color:var(--gold);
+  font-size:17px;
+  margin:34px 0 14px;
+}
+.compare-chart-wrap{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px 20px;
+}
+.compare-chart-empty{color:var(--muted);font-size:14px;text-align:center;padding:20px 0;}
+.compare-chart-legend{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+.cc-dot{
+  display:inline-block;
+  width:10px;height:10px;
+  border-radius:3px;
+  margin-left:14px;
+}
+.cc-dot:first-child{margin-left:0;}
+.cc-dot-fat{background:var(--gold);}
+.cc-dot-inv{background:#e2665f;}
+.compare-chart-svg{width:100%;height:auto;display:block;}
+.cc-label{font-size:12.5px;fill:var(--text);dominant-baseline:middle;}
+.cc-label-html{
+  font-family:var(--ff-body);
+  font-size:12px;
+  line-height:1.3;
+  color:var(--text);
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+.cc-bar{fill:var(--gold);}
+.cc-bar-fat{fill:var(--gold);}
+.cc-bar-inv{fill:#e2665f;}
+.cc-val{font-size:11.5px;fill:var(--muted);dominant-baseline:middle;}
+.cc-roi{font-size:12px;font-weight:700;}
+.cc-roi-pos{fill:var(--wa);}
+.cc-roi-neg{fill:#e2665f;}
 .compare-empty{
   text-align:center;
   color:var(--muted);

@@ -1170,13 +1170,16 @@
           <div class="rf-label">Faturamento</div>
           <div class="rf-bar"><input type="text" class="result-input" data-rkey="faturamento" value="" placeholder="-"></div>
         </div>
+        <div class="rf-step" style="--fw:14%">
+          <div class="rf-label">Investimento</div>
+          <div class="rf-bar"><input type="text" class="result-input" data-rkey="investimento" value="" placeholder="-"></div>
+        </div>
       </div>
       <div class="result-links">
         <div class="link-field">
-          <label>Link da transcrição</label>
+          <label>Link da transcrição <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da transcrição">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
@@ -1184,10 +1187,9 @@
           </div>
         </div>
         <div class="link-field">
-          <label>Link da gravação</label>
+          <label>Link da gravação <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da gravação">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
@@ -1219,13 +1221,16 @@
           <div class="rf-label">Faturamento</div>
           <div class="rf-bar"><input type="text" class="result-input" data-rkey="faturamento" value="" placeholder="-"></div>
         </div>
+        <div class="rf-step" style="--fw:14%">
+          <div class="rf-label">Investimento</div>
+          <div class="rf-bar"><input type="text" class="result-input" data-rkey="investimento" value="" placeholder="-"></div>
+        </div>
       </div>
       <div class="result-links">
         <div class="link-field">
-          <label>Link da transcrição</label>
+          <label>Link da transcrição <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da transcrição">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
@@ -1233,10 +1238,9 @@
           </div>
         </div>
         <div class="link-field">
-          <label>Link da gravação</label>
+          <label>Link da gravação <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da gravação">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
@@ -1268,13 +1272,16 @@
           <div class="rf-label">Faturamento</div>
           <div class="rf-bar"><input type="text" class="result-input" data-rkey="faturamento" value="" placeholder="-"></div>
         </div>
+        <div class="rf-step" style="--fw:14%">
+          <div class="rf-label">Investimento</div>
+          <div class="rf-bar"><input type="text" class="result-input" data-rkey="investimento" value="" placeholder="-"></div>
+        </div>
       </div>
       <div class="result-links">
         <div class="link-field">
-          <label>Link da transcrição</label>
+          <label>Link da transcrição <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da transcrição">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
@@ -1282,10 +1289,9 @@
           </div>
         </div>
         <div class="link-field">
-          <label>Link da gravação</label>
+          <label>Link da gravação <button type="button" class="link-pencil link-edit-btn" title="Editar" aria-label="Editar link da gravação">✎</button></label>
           <div class="link-view">
             <a class="link-anchor" href="#" target="_blank" rel="noopener">-</a>
-            <button type="button" class="link-btn link-edit-btn">Editar</button>
           </div>
           <div class="link-edit">
             <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
@@ -1311,12 +1317,17 @@
             <th>Leads no pico de audiência</th>
             <th>Vendas</th>
             <th>Faturamento</th>
+            <th>Investimento</th>
+            <th>ROI</th>
           </tr>
         </thead>
         <tbody id="compare-tbody"></tbody>
       </table>
     </div>
     <div class="compare-empty" id="compare-empty" style="display:none">Nenhum workshop pra comparar ainda.</div>
+
+    <h3 class="compare-chart-title">Gráfico de performance</h3>
+    <div class="compare-chart-wrap" id="compare-chart"></div>
   </section>
 
   <!-- PANEL 8: MSG NO PRIVADO & CADÊNCIA DE REPLAY (só DHA · 2 Aposentadorias) -->
