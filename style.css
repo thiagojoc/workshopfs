@@ -293,7 +293,7 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
   padding-top:18px;
   border-top:1px solid var(--border);
 }
-.result-link-field label{
+.link-field label{
   display:block;
   font-size:14px;
   font-weight:600;
@@ -313,6 +313,41 @@ small{font-size:var(--fs-caption);line-height:var(--lh-caption);}
 }
 .result-input.result-input-text:focus{box-shadow:0 0 0 2px var(--gold);}
 .result-input.result-input-text::placeholder{color:var(--muted);}
+
+.link-view{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.link-anchor{
+  color:var(--blue);
+  text-decoration:underline;
+  font-size:14.5px;
+  word-break:break-all;
+  flex:1 1 auto;
+  min-width:0;
+}
+.link-edit{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.link-edit .result-input{flex:1 1 auto;min-width:0;}
+.link-btn{
+  flex-shrink:0;
+  font-size:13px;
+  font-weight:600;
+  padding:9px 14px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  color:var(--text);
+  cursor:pointer;
+}
+.link-btn:hover{background:var(--card2);border-color:var(--gold);}
+.link-save-btn{background:var(--gold);color:#1a1305;border-color:var(--gold);font-weight:700;}
+.link-save-btn:hover{background:#e8bd6e;}
 
 /* ── COMPARATIVO DE WORKSHOPS ─────────────────────────── */
 .compare-wrap{

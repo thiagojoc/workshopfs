@@ -111,6 +111,60 @@ function _applyRemoteResults(results){
     var rkey = input.dataset.rkey;
     var val = Object.prototype.hasOwnProperty.call(results, rkey) ? String(results[rkey]) : "";
     if(input.value !== val) input.value = val;
+    var field = input.closest(".link-field");
+    if(field) _syncLinkFieldView(field);
+  });
+}
+
+// Campos de link (transcrição/gravação): por padrão mostram o link salvo
+// como texto clicável, que já abre em aba nova. Um botão "Editar" troca
+// pro campo de digitar, e "Salvar" grava e volta pro modo de
+// visualização. Sem link salvo ainda, já abre direto no modo de digitar.
+function _syncLinkFieldView(field){
+  var input = field.querySelector(".result-input");
+  var anchor = field.querySelector(".link-anchor");
+  var viewEl = field.querySelector(".link-view");
+  var editEl = field.querySelector(".link-edit");
+  if(!input || !anchor || !viewEl || !editEl) return;
+  if(document.activeElement === input) return; // não atropela quem está digitando agora
+  var val = input.value.trim();
+  if(val){
+    anchor.href = val;
+    anchor.textContent = val;
+    viewEl.style.display = "";
+    editEl.style.display = "none";
+  }else{
+    viewEl.style.display = "none";
+    editEl.style.display = "";
+  }
+}
+
+function setupLinkFields(){
+  document.querySelectorAll(".link-field").forEach(function(field){
+    var input = field.querySelector(".result-input");
+    var saveBtn = field.querySelector(".link-save-btn");
+    var editBtn = field.querySelector(".link-edit-btn");
+    if(!input) return;
+    if(saveBtn){
+      saveBtn.addEventListener("click", function(){
+        _saveRemoteResult(input.dataset.rkey, input.value);
+        _syncLinkFieldView(field);
+      });
+    }
+    if(editBtn){
+      editBtn.addEventListener("click", function(){
+        field.querySelector(".link-view").style.display = "none";
+        field.querySelector(".link-edit").style.display = "";
+        input.focus();
+      });
+    }
+    input.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        if(saveBtn) saveBtn.click();
+      }
+    });
+    _syncLinkFieldView(field);
   });
 }
 
@@ -508,8 +562,11 @@ function setupResultsPanel(){
   _resultInputs.forEach(function(input){
     input.addEventListener("blur", function(){
       _saveRemoteResult(input.dataset.rkey, input.value);
+      var field = input.closest(".link-field");
+      if(field) _syncLinkFieldView(field);
     });
   });
+  setupLinkFields();
 }
 
 // Deixa qualquer texto do documento (funil, copies do WhatsApp, exceto a
