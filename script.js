@@ -255,6 +255,23 @@ function _applyOfficeVisibility(office, workshopId){
     tab3Label.textContent = (office.id === "dinizhenn" && _WORKSHOPS_COM_DIRECIONAMENTO.indexOf(workshopId) !== -1)
       ? "Roteiro & Direcionamento" : "Roteiro";
   }
+  // Workshops com Direcionamento levam as objecoes pra dentro do proprio
+  // Roteiro & Direcionamento (como mais um ponto de estudo), entao a aba
+  // separada de Objecoes some pra eles; o Pacheco (sem Direcionamento
+  // ainda) continua com a aba de Objecoes de sempre.
+  var tab5Btn = document.querySelector('.tab-btn[data-target="panel-5"]');
+  if(tab5Btn){
+    tab5Btn.style.display = (office.id === "dinizhenn" && _WORKSHOPS_COM_DIRECIONAMENTO.indexOf(workshopId) !== -1)
+      ? "none" : "";
+  }
+  // Se a aba que estava ativa sumiu (era de outro workshop/escritorio),
+  // volta pra Visao Geral em vez de deixar o painel antigo aberto sem
+  // nenhuma aba marcada.
+  var activeTab = document.querySelector(".tab-btn.active");
+  if(activeTab && activeTab.style.display === "none"){
+    var firstTab = document.querySelector('.tab-btn[data-target="panel-1"]');
+    if(firstTab) firstTab.click();
+  }
 }
 
 function _initOffice(office){
@@ -505,7 +522,7 @@ function setupEditableContent(){
     { sel: ".funnel-label", tag: "fl" },
     { sel: ".funnel-desc", tag: "fd" },
     { sel: ".setup-text", tag: "st" },
-    { sel: ".bubble:not(.poll)", tag: "b" },
+    { sel: ".bubble:not(.poll):not(.buttons):not(.linkonly)", tag: "b" },
     { sel: ".schedule-text", tag: "s" },
     { sel: ".quote > span", tag: "q" },
     { sel: ".acc-q > span:first-child", tag: "aq" },

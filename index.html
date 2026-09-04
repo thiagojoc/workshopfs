@@ -79,6 +79,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg>
       Comparativo
     </button>
+    <button class="tab-btn" data-target="panel-8" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Msg no privado &amp; Cadência de replay
+    </button>
   </div>
 </nav>
 
@@ -191,92 +195,17 @@
 
       <div class="funnel-step" style="--w:40%">
         <div class="funnel-bar"><span class="funnel-n">5</span><span class="funnel-label">Oferta e fechamento</span></div>
-        <p class="funnel-desc">A Dra. Gabriela apresenta o investimento e a condição especial de fechamento. Ver aba "Oferta".</p>
+        <p class="funnel-desc">A Dra. Gabriela apresenta o investimento e a condição especial de fechamento.</p>
+        <div class="funnel-extra">
+          <a class="real-link" href="#" onclick="var b=document.querySelector('.tab-btn[data-target=&quot;panel-4&quot;]'); if(b) b.click(); return false;">Ver oferta</a>
+        </div>
       </div>
 
       <div class="funnel-step" style="--w:24%">
         <div class="funnel-bar"><span class="funnel-n">6</span><span class="funnel-label">Acompanhamento pós-workshop</span></div>
         <p class="funnel-desc">Quem não participou ao vivo recebe o replay no grupo, disponível só até o fim de semana. Ao se cadastrar pra assistir, recebe uma mensagem privada convidando pra agendar uma consulta individual com a Dra. Gabriela.</p>
         <div class="funnel-extra">
-          <a class="real-link" href="#cadencia-replay-apos">Ver cadência de replay</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="day-card" id="cadencia-lembretes-apos" style="margin-top:30px;display:none" data-office="dinizhenn" data-workshop="aposentadoria-0209">
-      <div class="day-header">
-        <span class="day-tag">1 DIA ANTES · 01/09</span>
-        <h3>Lembrete de véspera</h3>
-        <div class="objective">Objetivo: confirmar que a pessoa está no grupo e lembrar do encontro do dia seguinte. Enviada no privado, pelo número americano do escritório.</div>
-      </div>
-      <div class="day-body">
-        <div class="bubble">Olá. Tudo bem?</div>
-        <div class="bubble">Aqui é do Escritório Diniz &amp; Henn Advogados. Seja muito bem-vindo(a)!</div>
-        <div class="bubble">Estamos entrando em contato para confirmar que você já está no grupo referente ao encontro que acontecerá amanhã.</div>
-        <div class="bubble"><b>Horário:</b> 19h em Portugal, Inglaterra e Irlanda | 20h em França, Espanha, Itália e Alemanha</div>
-        <div class="bubble">O encontro será online, pelo Google Meet, e o link de acesso será enviado por este número antes do início.</div>
-        <div class="bubble">Até amanhã!</div>
-      </div>
-    </div>
-
-    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <div class="day-header">
-        <span class="day-tag">NO DIA · 02/09</span>
-        <h3>É hoje</h3>
-        <div class="objective">Objetivo: lembrar que o encontro é hoje e passar o link de acesso. Enviada no privado, pelo número americano do escritório.</div>
-      </div>
-      <div class="day-body">
-        <div class="bubble">Olá.</div>
-        <div class="bubble">É hoje o nosso encontro.</div>
-        <div class="bubble">Acesse pelo link:</div>
-        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
-      </div>
-    </div>
-
-    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <div class="day-header">
-        <span class="day-tag">5 MINUTOS ANTES · 02/09</span>
-        <h3>Já vai começar</h3>
-        <div class="objective">Objetivo: garantir que a pessoa entre na call, com o link em mãos. Enviada no privado, pelo número americano do escritório.</div>
-      </div>
-      <div class="day-body">
-        <div class="bubble">O evento já começou.</div>
-        <div class="bubble">Acesse pelo link:</div>
-        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
-      </div>
-    </div>
-
-    <div class="day-card" id="cadencia-replay-apos" style="margin-top:30px;display:none" data-office="dinizhenn" data-workshop="aposentadoria-0209">
-      <div class="day-header">
-        <span class="day-tag">REPLAY · GRUPO</span>
-        <h3>Aviso do replay no grupo</h3>
-        <div class="objective">Objetivo: avisar no grupo que o replay do workshop está disponível, com prazo limitado (só durante o fim de semana), pra quem não participou ao vivo ou quer rever algum ponto.</div>
-      </div>
-      <div class="day-body">
-        <div class="bubble">Boa noite pessoal!</div>
-        <div class="bubble">Como algumas pessoas não conseguiram participar ao vivo e pediram para assistir, <i>disponibilizamos o replay do workshop.</i></div>
-        <div class="bubble"><b>O replay ficará disponível somente durante este final de semana.</b></div>
-        <div class="bubble">O nosso workshop foi um sucesso.</div>
-        <div class="bubble">Tivemos uma participação incrível durante o encontro, surgiram várias dúvidas importantes.</div>
-        <div class="bubble">Foram muitas histórias diferentes e perguntas sobre cenários diversos.</div>
-        <div class="bubble">Se você não conseguiu acompanhar ou quer rever algum ponto, aproveite enquanto ele está disponível:</div>
-        <div class="bubble">https://dinizhennadvogados.com/replay-plan-previdenciario/assistir/</div>
-      </div>
-    </div>
-
-    <div class="day-card" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <div class="day-header">
-        <span class="day-tag">REPLAY · APÓS CADASTRO</span>
-        <h3>Confirmação e oferta de agendamento</h3>
-        <div class="objective">Objetivo: confirmar o cadastro de quem aplicou pra assistir ao replay e oferecer o agendamento de uma consulta individual com a Dra. Gabriela. Enviada automaticamente no privado quando a pessoa se cadastra na página do replay. Quem toca em "Sim, quero agendar" vai direto pro agendamento autônomo; quem agenda passa a receber os lembretes da cadência de agendamento.</div>
-      </div>
-      <div class="day-body">
-        <div class="bubble">Olá, {{nome}}.</div>
-        <div class="bubble">Seu cadastro para receber o replay do workshop foi registrado.</div>
-        <div class="bubble">Gostaria de agendar uma conversa individual com a Dra. Gabriela?</div>
-        <div class="bubble buttons">
-          <div class="btn-opt">Não tenho interesse</div>
-          <a class="btn-opt" href="https://api.leadconnectorhq.com/widget/booking/TztCE6Igv7E8QTSMrDnI" target="_blank" rel="noopener">Sim, quero agendar</a>
+          <a class="real-link" href="#" onclick="var b=document.querySelector('.tab-btn[data-target=&quot;panel-8&quot;]'); if(b) b.click(); return false;">Ver cadência de replay</a>
         </div>
       </div>
     </div>
@@ -984,6 +913,42 @@
         <button class="acc-q"><span>Se perguntarem sobre logística</span><span class="plus">+</span></button>
         <div class="acc-a"><p>É tudo online, não existe nenhuma necessidade de deslocamento presencial em lugar nenhum.</p></div>
       </div>
+
+      <h3 style="font-family:var(--ff-display);color:var(--gold);font-size:17px;margin:34px 0 14px;">Perguntas frequentes dos leads</h3>
+      <p class="intro" style="margin-bottom:16px;">Perguntas mais comuns e sugestões de resposta, pra usar tanto nas copies quanto ao vivo durante o workshop.</p>
+
+      <div class="acc-item open">
+        <button class="acc-q"><span>Registrar no consulado já resolve no Brasil?</span><span class="plus">+</span></button>
+        <div class="acc-a">Nem sempre. Em muitos casos, o registro ainda precisa ser trasladado pra produzir efeitos completos no Brasil.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Precisa ser feito no Distrito Federal?</span><span class="plus">+</span></button>
+        <div class="acc-a">Quando a pessoa é domiciliada no exterior, o registro costuma ser feito no cartório competente do Distrito Federal.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Preciso ir pessoalmente ao Brasil?</span><span class="plus">+</span></button>
+        <div class="acc-a">Em muitos casos, não. O processo pode ser acompanhado por advogado com procuração.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Quanto tempo demora?</span><span class="plus">+</span></button>
+        <div class="acc-a">Depois do protocolo correto, o prazo pode variar de aproximadamente 90 dias a 6 meses.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Preciso enviar documentos originais?</span><span class="plus">+</span></button>
+        <div class="acc-a">Alguns cartórios iniciam a análise digitalmente, mas podem exigir originais conforme o caso.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>O escritório acompanha tudo?</span><span class="plus">+</span></button>
+        <div class="acc-a">Sim. O escritório orienta os documentos, define o caminho certo, protocola e acompanha as exigências até a conclusão.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Quanto custa o serviço?</span><span class="plus">+</span></button>
+        <div class="acc-a">O valor do serviço completo é de 750 dólares. Só no dia do workshop, a condição especial cai pra 600 dólares pros 10 primeiros que fecharem, com sinal de 50 dólares.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Posso parcelar?</span><span class="plus">+</span></button>
+        <div class="acc-a">Sim, no cartão de crédito americano tem parcelamento semanal disponível.</div>
+      </div>
     </div>
 
     <div class="schedule-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
@@ -1013,6 +978,40 @@
     <div class="schedule-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
       <div class="schedule-time">50 min a 1 hora</div>
       <div class="schedule-text">Dúvidas rápidas: reforçar que quem quiser tirar dúvidas mais específicas sobre o próprio caso pode chamar depois da live.</div>
+    </div>
+
+    <div data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <h3 style="font-family:var(--ff-display);color:var(--gold);font-size:17px;margin:34px 0 14px;">Perguntas frequentes dos leads</h3>
+      <p class="intro" style="margin-bottom:16px;">Perguntas mais comuns e sugestões de resposta, pra usar tanto nas copies quanto ao vivo durante o workshop.</p>
+
+      <div class="acc-item open">
+        <button class="acc-q"><span>Já contribuí no Brasil e saí do país, esses anos estão perdidos?</span><span class="plus">+</span></button>
+        <div class="acc-a">Não necessariamente. Dependendo do país onde você mora hoje e do seu histórico de contribuições, pode ser possível considerar esses períodos e ainda ter direitos previdenciários nos dois países.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Nunca contribuí pro INSS, ainda faz sentido participar?</span><span class="plus">+</span></button>
+        <div class="acc-a">Sim. Existem situações em que ainda é possível começar a construir uma aposentadoria brasileira mesmo vivendo fora. O caminho certo depende do seu caso.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>O Brasil tem acordo previdenciário com o país onde eu moro?</span><span class="plus">+</span></button>
+        <div class="acc-a">Depende do país. O Brasil tem acordos internacionais de previdência com alguns países, o que pode facilitar o aproveitamento dos períodos contribuídos em cada um. Isso é analisado caso a caso.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Preciso estar contribuindo atualmente pro INSS pra participar?</span><span class="plus">+</span></button>
+        <div class="acc-a">Não. O conteúdo serve tanto pra quem contribui hoje, quanto pra quem já contribuiu e parou, e pra quem nunca contribuiu e quer entender as possibilidades.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>O workshop já me diz quanto tempo falta pra eu me aposentar?</span><span class="plus">+</span></button>
+        <div class="acc-a">O workshop é pra você entender como funciona o processo e as possibilidades pro seu perfil. Uma análise mais aprofundada do seu caso específico e do seu tempo de contribuição é feita individualmente, depois.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>Precisa ser associado da ABEU pra participar?</span><span class="plus">+</span></button>
+        <div class="acc-a">Não. Diferente do workshop de Traslado (que é só pra base da ABEU), esse aqui tem tráfego pago e está aberto pro público em geral.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span>O horário funciona pra quem mora fora da Europa?</span><span class="plus">+</span></button>
+        <div class="acc-a">Os horários divulgados (19h WEST / 20h CEST) são pensados pra quem mora em Portugal, Inglaterra, Irlanda, França, Espanha, Itália e Alemanha. Quem mora em outro fuso pode participar, só precisa converter o horário local.</div>
+      </div>
     </div>
   </section>
 
@@ -1073,6 +1072,23 @@
       <div class="quote"><span>Se você quer garantir essa condição, chama a gente direto no WhatsApp: [QR CODE/NÚMERO]. A nossa equipe já te explica como pagar o sinal e agendar sua call individual comigo pra amanhã.</span></div>
     </div>
 
+    <div class="offer-group" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <h3>Apresentando a condição especial</h3>
+      <div class="quote"><span>Hoje eu quero fazer diferente. Pros 10 primeiros que fecharem o planejamento com a gente, tem um bônus especial: vocês ganham outro planejamento, sem custo nenhum.</span></div>
+      <div class="quote"><span>E pra garantir sua vaga nessa condição, o sinal é de apenas 50 euros. Esse sinal já garante sua vaga e uma call individual comigo pra analisar o seu caso.</span></div>
+      <div class="quote"><span>Essa condição vale só pra quem fechar hoje, e só pros 10 primeiros. Depois que a live terminar, essa condição não vale mais.</span></div>
+    </div>
+
+    <div class="offer-group" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <h3>Garantindo a vaga (fechamento)</h3>
+      <div class="quote"><span>Pra garantir sua vaga com essa condição, é só me chamar aqui mesmo no chat ou direto no WhatsApp, que a nossa equipe já te explica o próximo passo.</span></div>
+    </div>
+
+    <div class="offer-group" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
+      <h3>Chamada para ação</h3>
+      <div class="quote"><span>Se você quer garantir essa condição, chama a gente direto no WhatsApp: [QR CODE/NÚMERO]. A nossa equipe já te explica como pagar o sinal e agendar sua call individual comigo.</span></div>
+    </div>
+
   </section>
 
   <!-- PANEL 5: OBJEÇÕES -->
@@ -1124,67 +1140,6 @@
       <button class="acc-q"><span>Sou cidadã estrangeira, meu filho nascerá no Brasil, tenho direito?</span><span class="plus">+</span></button>
       <div class="acc-a">O direito ao auxílio-maternidade não depende da nacionalidade, e sim de ser segurada da Previdência Social (ter contribuído com o INSS, seja com carteira assinada ou como contribuinte). Estrangeiras nessa condição também têm direito. [resposta a confirmar com a Dra. Alinne]</div>
     </div>
-    <div class="acc-item open" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Registrar no consulado já resolve no Brasil?</span><span class="plus">+</span></button>
-      <div class="acc-a">Nem sempre. Em muitos casos, o registro ainda precisa ser trasladado pra produzir efeitos completos no Brasil.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Precisa ser feito no Distrito Federal?</span><span class="plus">+</span></button>
-      <div class="acc-a">Quando a pessoa é domiciliada no exterior, o registro costuma ser feito no cartório competente do Distrito Federal.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Preciso ir pessoalmente ao Brasil?</span><span class="plus">+</span></button>
-      <div class="acc-a">Em muitos casos, não. O processo pode ser acompanhado por advogado com procuração.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Quanto tempo demora?</span><span class="plus">+</span></button>
-      <div class="acc-a">Depois do protocolo correto, o prazo pode variar de aproximadamente 90 dias a 6 meses.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Preciso enviar documentos originais?</span><span class="plus">+</span></button>
-      <div class="acc-a">Alguns cartórios iniciam a análise digitalmente, mas podem exigir originais conforme o caso.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>O escritório acompanha tudo?</span><span class="plus">+</span></button>
-      <div class="acc-a">Sim. O escritório orienta os documentos, define o caminho certo, protocola e acompanha as exigências até a conclusão.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Quanto custa o serviço?</span><span class="plus">+</span></button>
-      <div class="acc-a">O valor do serviço completo é de 750 dólares. Só no dia do workshop, a condição especial cai pra 600 dólares pros 10 primeiros que fecharem, com sinal de 50 dólares.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
-      <button class="acc-q"><span>Posso parcelar?</span><span class="plus">+</span></button>
-      <div class="acc-a">Sim, no cartão de crédito americano tem parcelamento semanal disponível.</div>
-    </div>
-
-    <div class="acc-item open" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>Já contribuí no Brasil e saí do país, esses anos estão perdidos?</span><span class="plus">+</span></button>
-      <div class="acc-a">Não necessariamente. Dependendo do país onde você mora hoje e do seu histórico de contribuições, pode ser possível considerar esses períodos e ainda ter direitos previdenciários nos dois países.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>Nunca contribuí pro INSS, ainda faz sentido participar?</span><span class="plus">+</span></button>
-      <div class="acc-a">Sim. Existem situações em que ainda é possível começar a construir uma aposentadoria brasileira mesmo vivendo fora. O caminho certo depende do seu caso.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>O Brasil tem acordo previdenciário com o país onde eu moro?</span><span class="plus">+</span></button>
-      <div class="acc-a">Depende do país. O Brasil tem acordos internacionais de previdência com alguns países, o que pode facilitar o aproveitamento dos períodos contribuídos em cada um. Isso é analisado caso a caso.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>Preciso estar contribuindo atualmente pro INSS pra participar?</span><span class="plus">+</span></button>
-      <div class="acc-a">Não. O conteúdo serve tanto pra quem contribui hoje, quanto pra quem já contribuiu e parou, e pra quem nunca contribuiu e quer entender as possibilidades.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>O workshop já me diz quanto tempo falta pra eu me aposentar?</span><span class="plus">+</span></button>
-      <div class="acc-a">O workshop é pra você entender como funciona o processo e as possibilidades pro seu perfil. Uma análise mais aprofundada do seu caso específico e do seu tempo de contribuição é feita individualmente, depois.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>Precisa ser associado da ABEU pra participar?</span><span class="plus">+</span></button>
-      <div class="acc-a">Não. Diferente do workshop de Traslado (que é só pra base da ABEU), esse aqui tem tráfego pago e está aberto pro público em geral.</div>
-    </div>
-    <div class="acc-item" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
-      <button class="acc-q"><span>O horário funciona pra quem mora fora da Europa?</span><span class="plus">+</span></button>
-      <div class="acc-a">Os horários divulgados (19h WEST / 20h CEST) são pensados pra quem mora em Portugal, Inglaterra, Irlanda, França, Espanha, Itália e Alemanha. Quem mora em outro fuso pode participar, só precisa converter o horário local.</div>
-    </div>
   </section>
 
   <!-- PANEL 6: RESULTADOS -->
@@ -1212,6 +1167,16 @@
           <div class="rf-bar"><input type="number" class="result-input" data-rkey="vendas" value="3"></div>
         </div>
       </div>
+      <div class="result-links">
+        <div class="result-link-field">
+          <label>Link da transcrição</label>
+          <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
+        </div>
+        <div class="result-link-field">
+          <label>Link da gravação</label>
+          <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
+        </div>
+      </div>
     </div>
     <div class="result-card" id="result-card-traslado-1908" data-office="dinizhenn" data-workshop="traslado-1908" style="display:none">
       <h3>Traslado de Registro Civil · 19/08/2026</h3>
@@ -1233,6 +1198,16 @@
           <div class="rf-bar"><input type="number" class="result-input" data-rkey="vendas" value=""></div>
         </div>
       </div>
+      <div class="result-links">
+        <div class="result-link-field">
+          <label>Link da transcrição</label>
+          <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
+        </div>
+        <div class="result-link-field">
+          <label>Link da gravação</label>
+          <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
+        </div>
+      </div>
     </div>
     <div class="result-card" id="result-card-aposentadoria-0209" data-office="dinizhenn" data-workshop="aposentadoria-0209" style="display:none">
       <h3>2 Aposentadorias no Exterior · 02/09/2026</h3>
@@ -1252,6 +1227,16 @@
         <div class="rf-step" style="--fw:34%">
           <div class="rf-label">Vendas</div>
           <div class="rf-bar"><input type="number" class="result-input" data-rkey="vendas" value=""></div>
+        </div>
+      </div>
+      <div class="result-links">
+        <div class="result-link-field">
+          <label>Link da transcrição</label>
+          <input type="url" class="result-input result-input-text" data-rkey="transcricaoLink" value="" placeholder="https://...">
+        </div>
+        <div class="result-link-field">
+          <label>Link da gravação</label>
+          <input type="url" class="result-input result-input-text" data-rkey="gravacaoLink" value="" placeholder="https://...">
         </div>
       </div>
     </div>
@@ -1277,6 +1262,90 @@
       </table>
     </div>
     <div class="compare-empty" id="compare-empty" style="display:none">Nenhum workshop pra comparar ainda.</div>
+  </section>
+
+  <!-- PANEL 8: MSG NO PRIVADO & CADÊNCIA DE REPLAY (só DHA · 2 Aposentadorias) -->
+  <section class="panel" id="panel-8">
+    <h2>Mensagens no privado &amp; Cadência de replay</h2>
+    <p class="intro">Lembretes individuais enviados fora do grupo (número americano do escritório) e a cadência de replay pós-workshop.</p>
+
+    <div class="day-card" id="cadencia-lembretes-apos" style="margin-top:0">
+      <div class="day-header">
+        <span class="day-tag">1 DIA ANTES · 01/09</span>
+        <h3>Lembrete de véspera</h3>
+        <div class="objective">Objetivo: confirmar que a pessoa está no grupo e lembrar do encontro do dia seguinte. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá. Tudo bem?</div>
+        <div class="bubble">Aqui é do Escritório Diniz &amp; Henn Advogados. Seja muito bem-vindo(a)!</div>
+        <div class="bubble">Estamos entrando em contato para confirmar que você já está no grupo referente ao encontro que acontecerá amanhã.</div>
+        <div class="bubble"><b>Horário:</b> 19h em Portugal, Inglaterra e Irlanda | 20h em França, Espanha, Itália e Alemanha</div>
+        <div class="bubble">O encontro será online, pelo Google Meet, e o link de acesso será enviado por este número antes do início.</div>
+        <div class="bubble">Até amanhã!</div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-tag">NO DIA · 02/09</span>
+        <h3>É hoje</h3>
+        <div class="objective">Objetivo: lembrar que o encontro é hoje e passar o link de acesso. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá.</div>
+        <div class="bubble">É hoje o nosso encontro.</div>
+        <div class="bubble">Acesse pelo link:</div>
+        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-tag">5 MINUTOS ANTES · 02/09</span>
+        <h3>Já vai começar</h3>
+        <div class="objective">Objetivo: garantir que a pessoa entre na call, com o link em mãos. Enviada no privado, pelo número americano do escritório.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">O evento já começou.</div>
+        <div class="bubble">Acesse pelo link:</div>
+        <div class="bubble">https://meet.google.com/mgo-nhnh-zbx</div>
+      </div>
+    </div>
+
+    <div class="day-card" style="margin-top:30px">
+      <div class="day-header">
+        <span class="day-tag">REPLAY · GRUPO</span>
+        <h3>Aviso do replay no grupo</h3>
+        <div class="objective">Objetivo: avisar no grupo que o replay do workshop está disponível, com prazo limitado (só durante o fim de semana), pra quem não participou ao vivo ou quer rever algum ponto.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Boa noite pessoal!</div>
+        <div class="bubble">Como algumas pessoas não conseguiram participar ao vivo e pediram para assistir, <i>disponibilizamos o replay do workshop.</i></div>
+        <div class="bubble"><b>O replay ficará disponível somente durante este final de semana.</b></div>
+        <div class="bubble">O nosso workshop foi um sucesso.</div>
+        <div class="bubble">Tivemos uma participação incrível durante o encontro, surgiram várias dúvidas importantes.</div>
+        <div class="bubble">Foram muitas histórias diferentes e perguntas sobre cenários diversos.</div>
+        <div class="bubble">Se você não conseguiu acompanhar ou quer rever algum ponto, aproveite enquanto ele está disponível:</div>
+        <div class="bubble linkonly"><a href="https://dinizhennadvogados.com/replay-plan-previdenciario/assistir/" target="_blank" rel="noopener">https://dinizhennadvogados.com/replay-plan-previdenciario/assistir/</a></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-tag">REPLAY · APÓS CADASTRO</span>
+        <h3>Confirmação e oferta de agendamento</h3>
+        <div class="objective">Objetivo: confirmar o cadastro de quem aplicou pra assistir ao replay e oferecer o agendamento de uma consulta individual com a Dra. Gabriela. Enviada automaticamente no privado quando a pessoa se cadastra na página do replay. Quem toca em "Sim, quero agendar" vai direto pro agendamento autônomo; quem agenda passa a receber os lembretes da cadência de agendamento.</div>
+      </div>
+      <div class="day-body">
+        <div class="bubble">Olá, {{nome}}.</div>
+        <div class="bubble">Seu cadastro para receber o replay do workshop foi registrado.</div>
+        <div class="bubble">Gostaria de agendar uma conversa individual com a Dra. Gabriela?</div>
+        <div class="bubble buttons">
+          <div class="btn-opt">Não tenho interesse</div>
+          <a class="btn-opt" href="https://api.leadconnectorhq.com/widget/booking/TztCE6Igv7E8QTSMrDnI" target="_blank" rel="noopener">Sim, quero agendar</a>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main>
