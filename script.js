@@ -63,13 +63,13 @@ var OFFICES = [
     // _setupComparativo), porque ainda nao foi preenchido.
     compareExtras: [
       { id: "saida-fiscal-1504", name: "Workshop Saída Fiscal · 15/04/2026", fullDocId: "dinizhenn_saida-fiscal-1504",
-        fixedResults: { leads: "135", leadsAugeGrupo: "135", leadsPico: "53", vendas: "10", faturamento: "$6.000" } },
+        fixedResults: { leads: "135", leadsAugeGrupo: "135", leadsPico: "53", vendas: "10", faturamento: "R$30.000" } },
       { id: "planejamento-prev-0705", name: "Workshop Planejamento Previdenciário · 07/05/2026", fullDocId: "dinizhenn_planejamento-prev-0705",
-        fixedResults: { leads: "50", leadsAugeGrupo: "50", leadsPico: "25", vendas: "5", faturamento: "$1.250" } },
+        fixedResults: { leads: "50", leadsAugeGrupo: "50", leadsPico: "25", vendas: "5", faturamento: "R$6.250" } },
       { id: "saida-fiscal-1405", name: "Workshop Saída Fiscal · 14/05/2026", fullDocId: "dinizhenn_saida-fiscal-1405",
-        fixedResults: { leads: "95", leadsAugeGrupo: "95", leadsPico: "46", vendas: "13", faturamento: "$4.000" } },
+        fixedResults: { leads: "95", leadsAugeGrupo: "95", leadsPico: "46", vendas: "13", faturamento: "R$20.000" } },
       { id: "saida-fiscal-2105", name: "Workshop Saída Fiscal · 21/05/2026", fullDocId: "dinizhenn_saida-fiscal-2105",
-        fixedResults: { leads: "97", leadsAugeGrupo: "97", leadsPico: "42", vendas: "10", faturamento: "$5.000" } }
+        fixedResults: { leads: "97", leadsAugeGrupo: "97", leadsPico: "42", vendas: "10", faturamento: "R$25.000" } }
     ]
   }
 ];
@@ -602,22 +602,25 @@ function _setupComparativo(office){
   _renderCompareChart();
 }
 
-// ── GRÁFICO DE PERFORMANCE (todos os resultados, por workshop) ────────
-// Cada métrica tem sua própria escala (percentual do maior valor dela
-// entre os workshops), porque leads/vendas são contagens e faturamento/
-// investimento são dinheiro: numa escala só, o dinheiro sempre apagaria
-// as barras de leads.
+// ── GRÁFICO DE PERFORMANCE (qual workshop performou melhor em cada
+// indicador) ───────────────────────────────────────────────────────
+// Um mini-gráfico por indicador (não um gráfico por workshop): dentro
+// de cada um, uma coluna por workshop, pra comparar direto quem foi
+// melhor naquele indicador específico. Cada workshop usa sempre a
+// mesma cor em todos os mini-gráficos.
 var _COMPARE_METRICS = [
-  { key: "leads", label: "Leads totais", color: "#d9a94e" },
-  { key: "leadsAugeGrupo", label: "Leads no auge do grupo", color: "#5b8def" },
-  { key: "leadsPico", label: "Leads no pico de audiência", color: "#4fd1c5" },
-  { key: "vendas", label: "Vendas", color: "#25d366" },
-  { key: "faturamento", label: "Faturamento", color: "#f2a65a" },
-  { key: "investimento", label: "Investimento", color: "#e2665f" }
+  { key: "leads", label: "Leads totais" },
+  { key: "leadsAugeGrupo", label: "Leads no auge do grupo" },
+  { key: "leadsPico", label: "Leads no pico de audiência" },
+  { key: "vendas", label: "Vendas" },
+  { key: "faturamento", label: "Faturamento" },
+  { key: "investimento", label: "Investimento" },
+  { key: "roi", label: "ROI" }
 ];
+var _WORKSHOP_PALETTE = ["#d9a94e", "#5b8def", "#4fd1c5", "#25d366", "#f2a65a", "#e2665f", "#a78bfa", "#f472b6"];
 
-// Abreviação do "tipo" do workshop, pro rótulo do eixo do gráfico não
-// ficar enorme. A data (que já vem no nome, "· DD/MM/AAAA") continua,
+// Abreviação do "tipo" do workshop, pro rótulo embaixo de cada coluna
+// não ficar enorme. A data (que já vem no nome, "· DD/MM/AAAA") continua,
 // só encurtada pra "DD/MM", porque é ela que diferencia duas edições
 // do mesmo tipo (ex: os dois workshops de Planejamento Previdenciário).
 var _WORKSHOP_ABBR = [
@@ -651,10 +654,20 @@ function _renderCompareChart(){
   if(!container) return;
 
   var rowEls = Array.prototype.slice.call(document.querySelectorAll("#compare-tbody tr"));
-  var data = rowEls.map(function(tr){
+  var data = rowEls.map(function(tr, i){
     var rowId = tr.id.replace("compare-row-", "");
     var d = _compareRowData[rowId] || {};
-    return { name: d.name || "", values: d.values || {} };
+    var v = d.values || {};
+    var roi = (v.faturamento === null || v.faturamento === undefined || v.investimento === null || v.investimento === undefined)
+      ? null : (v.faturamento - v.investimento);
+    return {
+      label: _abbreviateWorkshopName(d.name || ""),
+      color: _WORKSHOP_PALETTE[i % _WORKSHOP_PALETTE.length],
+      values: {
+        leads: v.leads, leadsAugeGrupo: v.leadsAugeGrupo, leadsPico: v.leadsPico,
+        vendas: v.vendas, faturamento: v.faturamento, investimento: v.investimento, roi: roi
+      }
+    };
   }).filter(function(d){
     return _COMPARE_METRICS.some(function(m){
       var v = d.values[m.key];
@@ -667,66 +680,32 @@ function _renderCompareChart(){
     return;
   }
 
-  var maxByMetric = {};
-  _COMPARE_METRICS.forEach(function(m){
-    maxByMetric[m.key] = Math.max.apply(null, data.map(function(d){ return d.values[m.key] || 0; }).concat([1]));
-  });
-
-  var barW = 15;
-  var barGap = 4;
-  var groupInnerW = _COMPARE_METRICS.length * (barW + barGap) - barGap;
-  var groupGap = 34;
-  var groupW = groupInnerW + groupGap;
-  var maxBarH = 190;
-  var topPad = 58;    // espaço pro valor (rotacionado) em cima da barra mais alta
-  var baseY = topPad + maxBarH;
-  var labelH = 34;    // nome do workshop (foreignObject, 2 linhas)
-  var roiH = 20;       // linha do ROI
-  var chartW = data.length * groupW + 20;
-  var svgH = baseY + 10 + labelH + roiH;
-
-  // Colunas verticais, workshops no eixo de baixo. O nome do workshop usa
-  // foreignObject (HTML dentro do SVG) em vez de <text>, porque <text> não
-  // quebra linha nem corta com reticências sozinho.
-  var bars = data.map(function(d, gi){
-    var groupX = 10 + gi * groupW;
-    var svg = "";
-
-    _COMPARE_METRICS.forEach(function(m, mi){
-      var val = d.values[m.key];
-      var has = val !== null && val !== undefined;
-      var h = has ? Math.max(2, (val || 0) / maxByMetric[m.key] * maxBarH) : 0;
-      var x = groupX + mi * (barW + barGap);
-      var y = baseY - h;
-      svg += '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + h + '" rx="3" fill="' + m.color + '"></rect>';
-      if(has){
-        svg += '<text x="' + (x + barW / 2 + 4) + '" y="' + (y - 4) + '" class="cc-val" transform="rotate(-90 ' + (x + barW / 2 + 4) + ' ' + (y - 4) + ')">' + _formatNumber(val) + '</text>';
-      }
-    });
-
-    svg += '<line x1="' + groupX + '" y1="' + baseY + '" x2="' + (groupX + groupInnerW) + '" y2="' + baseY + '" class="cc-axis"></line>';
-
-    svg += '<foreignObject x="' + groupX + '" y="' + (baseY + 6) + '" width="' + (groupInnerW + groupGap - 8) + '" height="' + labelH + '">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html cc-label-center">' + _escapeHtml(_abbreviateWorkshopName(d.name)) + '</div>' +
-    '</foreignObject>';
-
-    var hasRoi = d.values.faturamento !== null && d.values.faturamento !== undefined &&
-                 d.values.investimento !== null && d.values.investimento !== undefined;
-    if(hasRoi){
-      var roi = d.values.faturamento - d.values.investimento;
-      svg += '<text x="' + (groupX + groupInnerW / 2) + '" y="' + (baseY + labelH + 20) + '" class="cc-roi cc-roi-center ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">ROI: ' +
-        (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi)) + '</text>';
-    }
-    return svg;
+  var legend = data.map(function(d){
+    return '<span class="cc-dot" style="background:' + d.color + '"></span>' + _escapeHtml(d.label);
   }).join("");
 
-  var legend = _COMPARE_METRICS.map(function(m){
-    return '<span class="cc-dot" style="background:' + m.color + '"></span>' + _escapeHtml(m.label);
+  var minis = _COMPARE_METRICS.map(function(m){
+    var vals = data.map(function(d){ return d.values[m.key]; }).filter(function(v){ return v !== null && v !== undefined; });
+    if(!vals.length) return "";
+    var maxVal = Math.max.apply(null, vals.concat([1]).map(Math.abs));
+    var cols = data.map(function(d){
+      var val = d.values[m.key];
+      var has = val !== null && val !== undefined;
+      var pct = has ? Math.max(2, Math.abs(val) / maxVal * 100) : 0;
+      var neg = has && val < 0;
+      return '' +
+        '<div class="mini-bar-col">' +
+          '<div class="mini-bar-value">' + (has ? _formatNumber(val) : "-") + '</div>' +
+          '<div class="mini-bar' + (neg ? ' mini-bar-neg' : '') + '" style="height:' + pct + '%;background:' + d.color + '"></div>' +
+          '<div class="mini-bar-label">' + _escapeHtml(d.label) + '</div>' +
+        '</div>';
+    }).join("");
+    return '<div class="compare-mini-chart"><h4 class="mini-title">' + _escapeHtml(m.label) + '</h4><div class="mini-bars">' + cols + '</div></div>';
   }).join("");
 
   container.innerHTML =
     '<div class="compare-chart-legend">' + legend + '</div>' +
-    '<svg viewBox="0 0 ' + chartW + ' ' + svgH + '" class="compare-chart-svg" preserveAspectRatio="xMinYMin meet">' + bars + '</svg>';
+    '<div class="compare-mini-grid">' + minis + '</div>';
 }
 
 document.addEventListener("DOMContentLoaded", function(){
