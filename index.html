@@ -1307,27 +1307,33 @@
     <h2>Comparativo de Workshops</h2>
     <p class="intro">Compare os resultados de cada edição do workshop lado a lado, pra acompanhar a evolução.</p>
 
-    <div class="compare-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Workshop</th>
-            <th>Leads totais</th>
-            <th>Leads no auge do grupo</th>
-            <th>Leads no pico de audiência</th>
-            <th>Vendas</th>
-            <th>Faturamento</th>
-            <th>Investimento</th>
-            <th>ROI</th>
-          </tr>
-        </thead>
-        <tbody id="compare-tbody"></tbody>
-      </table>
+    <div class="compare-breakout">
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Workshop</th>
+              <th>Leads totais</th>
+              <th>Leads no auge do grupo</th>
+              <th>Leads no pico de audiência</th>
+              <th class="col-money">Vendas</th>
+              <th class="col-money">Faturamento</th>
+              <th class="col-money">Investimento</th>
+              <th class="col-money">ROI</th>
+            </tr>
+          </thead>
+          <tbody id="compare-tbody"></tbody>
+        </table>
+      </div>
     </div>
     <div class="compare-empty" id="compare-empty" style="display:none">Nenhum workshop pra comparar ainda.</div>
 
-    <h3 class="compare-chart-title">Gráfico de performance</h3>
-    <div class="compare-chart-wrap" id="compare-chart"></div>
+    <div class="compare-breakout">
+      <div>
+        <h3 class="compare-chart-title">Gráfico de performance</h3>
+        <div class="compare-chart-wrap" id="compare-chart"></div>
+      </div>
+    </div>
   </section>
 
   <!-- PANEL 8: MSG NO PRIVADO & CADÊNCIA DE REPLAY (só DHA · 2 Aposentadorias) -->

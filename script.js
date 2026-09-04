@@ -472,12 +472,12 @@ function _updateCompareRoi(rowId){
   if(!row) return;
   var roiCell = row.querySelector(".compare-roi");
   if(roiCell){
-    var data = _compareRowData[rowId] || {};
-    if(data.faturamento === null || data.faturamento === undefined || data.investimento === null || data.investimento === undefined){
+    var v = (_compareRowData[rowId] || {}).values || {};
+    if(v.faturamento === null || v.faturamento === undefined || v.investimento === null || v.investimento === undefined){
       roiCell.textContent = "-";
       roiCell.classList.remove("roi-neg", "roi-pos");
     }else{
-      var roi = data.faturamento - data.investimento;
+      var roi = v.faturamento - v.investimento;
       roiCell.textContent = (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi));
       roiCell.classList.toggle("roi-neg", roi < 0);
       roiCell.classList.toggle("roi-pos", roi > 0);
@@ -543,8 +543,14 @@ function _setupComparativo(office){
 
     _compareRowData[w.id] = {
       name: w.name,
-      faturamento: isExtra ? _parseMoney(fixed.faturamento) : null,
-      investimento: null
+      values: {
+        leads: isExtra ? _parseMoney(fixed.leads) : null,
+        leadsAugeGrupo: isExtra ? _parseMoney(fixed.leadsAugeGrupo) : null,
+        leadsPico: isExtra ? _parseMoney(fixed.leadsPico) : null,
+        vendas: isExtra ? _parseMoney(fixed.vendas) : null,
+        faturamento: isExtra ? _parseMoney(fixed.faturamento) : null,
+        investimento: null
+      }
     };
 
     if(isExtra && row){
@@ -557,7 +563,7 @@ function _setupComparativo(office){
           });
         });
         input.addEventListener("input", function(){
-          _compareRowData[w.id].investimento = _parseMoney(input.value);
+          _compareRowData[w.id].values.investimento = _parseMoney(input.value);
           _updateCompareRoi(w.id);
         });
       });
@@ -575,7 +581,7 @@ function _setupComparativo(office){
             if(input.value !== val) input.value = val;
           }
           if(input.dataset.rkey === "investimento"){
-            _compareRowData[w.id].investimento = _parseMoney(input.value);
+            _compareRowData[w.id].values.investimento = _parseMoney(input.value);
           }
         });
       }else{
@@ -583,9 +589,8 @@ function _setupComparativo(office){
         _RESULT_COLS.forEach(function(col, i){
           var val = results[col];
           cells[i + 1].textContent = (val === undefined || val === null || val === "") ? "-" : val;
+          _compareRowData[w.id].values[col] = _parseMoney(val);
         });
-        _compareRowData[w.id].faturamento = _parseMoney(results.faturamento);
-        _compareRowData[w.id].investimento = _parseMoney(results.investimento);
       }
       _updateCompareRoi(w.id);
     }, function(err){
@@ -597,7 +602,20 @@ function _setupComparativo(office){
   _renderCompareChart();
 }
 
-// ── GRÁFICO DE PERFORMANCE (faturamento x investimento por workshop) ──
+// ── GRÁFICO DE PERFORMANCE (todos os resultados, por workshop) ────────
+// Cada métrica tem sua própria escala (percentual do maior valor dela
+// entre os workshops), porque leads/vendas são contagens e faturamento/
+// investimento são dinheiro: numa escala só, o dinheiro sempre apagaria
+// as barras de leads.
+var _COMPARE_METRICS = [
+  { key: "leads", label: "Leads totais", color: "#d9a94e" },
+  { key: "leadsAugeGrupo", label: "Leads no auge do grupo", color: "#5b8def" },
+  { key: "leadsPico", label: "Leads no pico de audiência", color: "#4fd1c5" },
+  { key: "vendas", label: "Vendas", color: "#25d366" },
+  { key: "faturamento", label: "Faturamento", color: "#f2a65a" },
+  { key: "investimento", label: "Investimento", color: "#e2665f" }
+];
+
 function _renderCompareChart(){
   var container = document.getElementById("compare-chart");
   if(!container) return;
@@ -606,54 +624,68 @@ function _renderCompareChart(){
   var data = rowEls.map(function(tr){
     var rowId = tr.id.replace("compare-row-", "");
     var d = _compareRowData[rowId] || {};
-    return { name: d.name || "", faturamento: d.faturamento, investimento: d.investimento };
-  }).filter(function(d){ return d.faturamento !== null && d.faturamento !== undefined; });
+    return { name: d.name || "", values: d.values || {} };
+  }).filter(function(d){
+    return _COMPARE_METRICS.some(function(m){
+      var v = d.values[m.key];
+      return v !== null && v !== undefined;
+    });
+  });
 
   if(!data.length){
-    container.innerHTML = '<div class="compare-chart-empty">Preencha o faturamento de algum workshop pra ver o gráfico.</div>';
+    container.innerHTML = '<div class="compare-chart-empty">Preencha algum resultado pra ver o gráfico.</div>';
     return;
   }
 
-  var maxVal = Math.max.apply(null, data.map(function(d){
-    return Math.max(d.faturamento || 0, d.investimento || 0);
-  }).concat([1]));
+  var maxByMetric = {};
+  _COMPARE_METRICS.forEach(function(m){
+    maxByMetric[m.key] = Math.max.apply(null, data.map(function(d){ return d.values[m.key] || 0; }).concat([1]));
+  });
 
-  var rowH = 64;
-  var chartW = 680;
-  var labelW = 220;
-  var barAreaW = chartW - labelW - 100;
+  var barH = 13;
+  var barGap = 4;
+  var metricsH = _COMPARE_METRICS.length * (barH + barGap);
+  var rowH = metricsH + 44; // + espaço pro nome (topo) e ROI (rodapé)
+  var chartW = 980;
+  var labelW = 230;
+  var barAreaW = chartW - labelW - 90;
   var svgH = data.length * rowH + 10;
 
   // O nome do workshop usa foreignObject (HTML dentro do SVG) em vez de
   // <text>, porque <text> não quebra linha nem corta com reticências
   // sozinho, então nomes longos ficavam por cima das barras.
-  var bars = data.map(function(d, i){
-    var y = 10 + i * rowH;
-    var fatW = Math.max(2, (d.faturamento || 0) / maxVal * barAreaW);
-    var hasInv = d.investimento !== null && d.investimento !== undefined;
-    var invW = hasInv ? Math.max(2, (d.investimento || 0) / maxVal * barAreaW) : 0;
-    var roi = hasInv ? d.faturamento - d.investimento : null;
-    var roiTxt = roi === null ? "" : ("ROI: " + (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi)));
-    var safeName = _escapeHtml(d.name);
-    var svg = '' +
-      '<foreignObject x="0" y="' + (y - 3) + '" width="' + (labelW - 12) + '" height="' + (rowH - 6) + '">' +
-        '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html">' + safeName + '</div>' +
-      '</foreignObject>' +
-      '<rect x="' + labelW + '" y="' + y + '" width="' + fatW + '" height="14" rx="3" class="cc-bar cc-bar-fat"></rect>' +
-      '<text x="' + (labelW + fatW + 6) + '" y="' + (y + 11) + '" class="cc-val">' + _formatNumber(d.faturamento || 0) + '</text>';
-    if(hasInv){
-      svg += '' +
-        '<rect x="' + labelW + '" y="' + (y + 19) + '" width="' + invW + '" height="14" rx="3" class="cc-bar cc-bar-inv"></rect>' +
-        '<text x="' + (labelW + invW + 6) + '" y="' + (y + 30) + '" class="cc-val">' + _formatNumber(d.investimento || 0) + '</text>';
-    }
-    if(roiTxt){
-      svg += '<text x="' + labelW + '" y="' + (y + 46) + '" class="cc-roi ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">' + roiTxt + '</text>';
+  var bars = data.map(function(d, gi){
+    var groupY = 10 + gi * rowH;
+    var svg = '<foreignObject x="0" y="' + groupY + '" width="' + (labelW - 12) + '" height="34">' +
+      '<div xmlns="http://www.w3.org/1999/xhtml" class="cc-label-html">' + _escapeHtml(d.name) + '</div>' +
+    '</foreignObject>';
+
+    _COMPARE_METRICS.forEach(function(m, mi){
+      var val = d.values[m.key];
+      var has = val !== null && val !== undefined;
+      var w = has ? Math.max(2, (val || 0) / maxByMetric[m.key] * barAreaW) : 0;
+      var y = groupY + mi * (barH + barGap);
+      svg += '<rect x="' + labelW + '" y="' + y + '" width="' + w + '" height="' + barH + '" rx="3" fill="' + m.color + '"></rect>' +
+        '<text x="' + (labelW + w + 6) + '" y="' + (y + barH - 2) + '" class="cc-val">' + (has ? _formatNumber(val) : "-") + '</text>';
+    });
+
+    var hasRoi = d.values.faturamento !== null && d.values.faturamento !== undefined &&
+                 d.values.investimento !== null && d.values.investimento !== undefined;
+    if(hasRoi){
+      var roi = d.values.faturamento - d.values.investimento;
+      var roiY = groupY + metricsH + 12;
+      svg += '<text x="' + labelW + '" y="' + roiY + '" class="cc-roi ' + (roi < 0 ? "cc-roi-neg" : "cc-roi-pos") + '">ROI: ' +
+        (roi < 0 ? "-" : "") + _formatNumber(Math.abs(roi)) + '</text>';
     }
     return svg;
   }).join("");
 
+  var legend = _COMPARE_METRICS.map(function(m){
+    return '<span class="cc-dot" style="background:' + m.color + '"></span>' + _escapeHtml(m.label);
+  }).join("");
+
   container.innerHTML =
-    '<div class="compare-chart-legend"><span class="cc-dot cc-dot-fat"></span>Faturamento<span class="cc-dot cc-dot-inv"></span>Investimento</div>' +
+    '<div class="compare-chart-legend">' + legend + '</div>' +
     '<svg viewBox="0 0 ' + chartW + ' ' + svgH + '" class="compare-chart-svg" preserveAspectRatio="xMinYMin meet">' + bars + '</svg>';
 }
 
