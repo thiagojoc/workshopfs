@@ -99,10 +99,12 @@ function _applyRemoteEdits(edits){
   _liveEdits = edits || {};
   _editableEls.forEach(function(item){
     if(document.activeElement === item.el) return; // não atropela quem está digitando agora
-    if(Object.prototype.hasOwnProperty.call(_liveEdits, item.key)){
-      var val = _liveEdits[item.key];
-      if(item.el.innerHTML !== val) item.el.innerHTML = val;
-    }
+    // Se o workshop atual não tem edição salva pra essa chave, volta pro
+    // texto original do elemento (isso importa pro checklist, que é um
+    // único conjunto de elementos compartilhado entre todos os workshops,
+    // ao contrário do resto do conteúdo, que é duplicado por workshop).
+    var val = Object.prototype.hasOwnProperty.call(_liveEdits, item.key) ? _liveEdits[item.key] : item.defaultHtml;
+    if(item.el.innerHTML !== val) item.el.innerHTML = val;
     item.el.style.display = _isBlankHtml(item.el.innerHTML) ? "none" : "";
   });
 }
@@ -124,6 +126,40 @@ function _applyRemoteResults(results){
     if(input.value !== val) input.value = val;
     var field = input.closest(".link-field");
     if(field) _syncLinkFieldView(field);
+  });
+}
+
+// Checklist do workshop (panel 9): mesma logica de sincronizacao dos
+// resultados, mas guardada num campo separado ("checklist") do mesmo
+// documento do workshop atual, entao cada workshop tem seu proprio estado
+// marcado sem misturar com o de outro.
+var _checklistInputs = [];
+function _applyRemoteChecklist(checklist){
+  checklist = checklist || {};
+  _checklistInputs.forEach(function(input){
+    if(document.activeElement === input) return;
+    var val = !!checklist[input.dataset.ckey];
+    if(input.checked !== val) input.checked = val;
+    var item = input.closest(".checklist-item");
+    if(item) item.classList.toggle("done", val);
+  });
+}
+function _saveRemoteChecklist(ckey, checked){
+  if(!_docRef) return;
+  var patch = { checklist: {} };
+  patch.checklist[ckey] = checked;
+  setDoc(_docRef, patch, { merge: true }).catch(function(err){
+    console.warn("Não deu pra salvar o checklist ao vivo, ficou só neste navegador.", err);
+  });
+}
+function setupChecklist(){
+  _checklistInputs = Array.prototype.slice.call(document.querySelectorAll(".checklist-check"));
+  _checklistInputs.forEach(function(input){
+    input.addEventListener("change", function(){
+      var item = input.closest(".checklist-item");
+      if(item) item.classList.toggle("done", input.checked);
+      _saveRemoteChecklist(input.dataset.ckey, input.checked);
+    });
   });
 }
 
@@ -186,6 +222,7 @@ function _startLiveSync(){
     var data = snap.exists() ? snap.data() : {};
     _applyRemoteEdits(data.edits || {});
     _applyRemoteResults(data.results || {});
+    _applyRemoteChecklist(data.checklist || {});
   }, function(err){
     console.warn("Sincronização ao vivo indisponível, usando só este navegador.", err);
   });
@@ -762,6 +799,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   setupEditableContent();
   setupResultsPanel();
+  setupChecklist();
   setupLightbox();
   setupDayCardCopyButtons();
   _setupGate();
@@ -939,6 +977,7 @@ function setupEditableContent(){
   }
   function makeEditable(el, key){
     el.dataset.key = key;
+    var defaultHtml = el.innerHTML; // texto original, antes de qualquer edição
     var saved = null;
     try{ saved = localStorage.getItem("wfs_edit_" + key); }catch(e){}
     if(saved !== null) el.innerHTML = saved;
@@ -955,7 +994,7 @@ function setupEditableContent(){
         }
       }, 120);
     });
-    _editableEls.push({ el: el, key: key });
+    _editableEls.push({ el: el, key: key, defaultHtml: defaultHtml });
   }
 
   // Grupos de elementos editáveis. A chave de cada um vem de um hash do
@@ -978,7 +1017,9 @@ function setupEditableContent(){
     { sel: ".schedule-text", tag: "s" },
     { sel: ".quote > span", tag: "q" },
     { sel: ".acc-q > span:first-child", tag: "aq" },
-    { sel: ".acc-a", tag: "aa" }
+    { sel: ".acc-a", tag: "aa" },
+    { sel: ".checklist-item-title", tag: "ct" },
+    { sel: ".checklist-item-sub", tag: "cs" }
   ];
   groups.forEach(function(g){
     var seen = {};

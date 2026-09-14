@@ -1092,3 +1092,56 @@ footer{
   .hero{padding:40px 18px 30px;}
   main{padding:28px 16px 60px;}
 }
+
+/* ── CHECKLIST DO WORKSHOP (panel 9) ──────────────────── */
+.checklist{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:760px;
+}
+.checklist-item{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 18px;
+}
+.checklist-check{
+  width:22px;
+  height:22px;
+  margin-top:2px;
+  flex-shrink:0;
+  accent-color:var(--gold);
+  cursor:pointer;
+}
+.checklist-item-body{
+  flex:1;
+  min-width:0;
+}
+.checklist-item-title{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.4;
+}
+.checklist-item-sub{
+  font-size:14px;
+  color:var(--muted);
+  margin-top:4px;
+  line-height:1.4;
+}
+.checklist-item.done{
+  border-color:var(--green-dim);
+  background:var(--green-dim);
+}
+.checklist-item.done .checklist-item-title{
+  color:var(--green);
+  text-decoration:line-through;
+  text-decoration-color:var(--green);
+}
+.checklist-item.done .checklist-item-sub{
+  opacity:.75;
+}

@@ -55,6 +55,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
       Visão geral
     </button>
+    <button class="tab-btn" data-target="panel-9">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Checklist
+    </button>
     <button class="tab-btn" data-target="panel-2">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       Grupo WhatsApp
@@ -1780,6 +1784,92 @@
       <div class="day-body">
         <div class="bubble">O evento já começou.</div>
         <div class="bubble">Acesse pelo link:<br>meet.google.com/mcd-mubz-rqa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 9: CHECKLIST (comum a todos os workshops, estado salvo por workshop) -->
+  <section class="panel" id="panel-9">
+    <h2>Checklist do workshop</h2>
+    <p class="intro">Marque conforme for concluindo. O texto de cada item pode ser editado direto na página, clicando nele. O que fica marcado aqui é só deste workshop selecionado acima, não afeta os outros.</p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="tema-data">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Data e tema decididos</div>
+          <div class="checklist-item-sub">Tema, público, data e horário</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="grupo-criado">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Grupo do WhatsApp criado</div>
+          <div class="checklist-item-sub">Foto, descrição, admins</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="criativo-feito">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Criativo feito</div>
+          <div class="checklist-item-sub">Arte, variações</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="orcamento-aprovado">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Orçamento aprovado</div>
+          <div class="checklist-item-sub">Conta carregada</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="campanha-ligada">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Campanha ligada</div>
+          <div class="checklist-item-sub">BM configurada e monitorada</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="cadencia-criada">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Cadência de mensagens de lembrete/aquecimento criada</div>
+          <div class="checklist-item-sub">Copys de lembrete para o grupo e 1a1</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="video-audio-expert">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Vídeo e áudio da expert</div>
+          <div class="checklist-item-sub">Enviar roteiro de cadência para expert gravar</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="templates-crm">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Templates criados e aprovados no CRM</div>
+          <div class="checklist-item-sub">Configuração dos templates no CRM</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="leads-trackeado">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Leads do grupo trackeado</div>
+          <div class="checklist-item-sub">Leads que entraram no grupo já na planilha, importados no CRM com tag</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="automacao-crm">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Automação configurada no CRM</div>
+          <div class="checklist-item-sub">Automação de resgate de leads e aquecimento dos novos</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <input type="checkbox" class="checklist-check" data-ckey="material-acompanhamento">
+        <div class="checklist-item-body">
+          <div class="checklist-item-title">Material de acompanhamento todo configurado</div>
+          <div class="checklist-item-sub">&nbsp;</div>
+        </div>
       </div>
     </div>
   </section>
