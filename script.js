@@ -57,7 +57,7 @@ var OFFICES = [
       },
       {
         id: "saida-fiscal-1609",
-        name: "Saída Fiscal, Planejamento Previdenciário & Direito de Família · 16/09/2026",
+        name: "Saída Fiscal para Brasileiros que vivem na Europa · 16/09/2026",
         docId: "saida-fiscal-1609"
       }
     ],
