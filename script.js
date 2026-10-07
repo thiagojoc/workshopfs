@@ -59,6 +59,11 @@ var OFFICES = [
         id: "saida-fiscal-1609",
         name: "Saída Fiscal para Brasileiros que vivem na Europa · 16/09/2026",
         docId: "saida-fiscal-1609"
+      },
+      {
+        id: "aposentadoria-0710",
+        name: "2 Aposentadorias no Exterior · 07/10/2026",
+        docId: "aposentadoria-0710"
       }
     ],
     // Workshops anteriores do DHA que so entram no comparativo (sem funil,
@@ -370,7 +375,7 @@ function _applyOfficeVisibility(office, workshopId){
   // Os workshops do DHA que ja tiveram (ou vao ter) reuniao de alinhamento
   // viram material de estudo completo no painel 3, nao so um cronograma,
   // entao o rotulo da aba muda pra deixar isso claro.
-  var _WORKSHOPS_COM_DIRECIONAMENTO = ["traslado-1908", "aposentadoria-0209", "saida-fiscal-1609"];
+  var _WORKSHOPS_COM_DIRECIONAMENTO = ["traslado-1908", "aposentadoria-0209", "saida-fiscal-1609", "aposentadoria-0710"];
   var tab3Label = document.getElementById("tab3-label");
   if(tab3Label){
     tab3Label.textContent = (office.id === "dinizhenn" && _WORKSHOPS_COM_DIRECIONAMENTO.indexOf(workshopId) !== -1)
