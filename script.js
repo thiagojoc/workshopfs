@@ -473,7 +473,7 @@ function _selectWorkshop(office, workshop){
 
 // ── COMPARATIVO DE WORKSHOPS ──────────────────────────────
 var _compareUnsubs = [];
-var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "vendas", "faturamento", "investimento"];
+var _RESULT_COLS = ["leads", "leadsAugeGrupo", "leadsPico", "pagouSinal", "vendas", "faturamento", "investimento"];
 var _compareRowData = {}; // { rowId: { name, faturamento:number|null, investimento:number|null } }, usado pro gráfico
 
 // Converte texto de dinheiro num número. Aceita "R$ 1.234,56", "$6.000",
@@ -607,6 +607,7 @@ function _setupComparativo(office){
         leads: isExtra ? _parseMoney(fixed.leads) : null,
         leadsAugeGrupo: isExtra ? _parseMoney(fixed.leadsAugeGrupo) : null,
         leadsPico: isExtra ? _parseMoney(fixed.leadsPico) : null,
+        pagouSinal: isExtra ? _parseMoney(fixed.pagouSinal) : null,
         vendas: isExtra ? _parseMoney(fixed.vendas) : null,
         faturamento: isExtra ? _parseMoney(fixed.faturamento) : null,
         investimento: null
@@ -672,6 +673,7 @@ var _COMPARE_METRICS = [
   { key: "leads", label: "Leads totais" },
   { key: "leadsAugeGrupo", label: "Leads no auge do grupo" },
   { key: "leadsPico", label: "Leads no pico de audiência" },
+  { key: "pagouSinal", label: "Pagou sinal" },
   { key: "vendas", label: "Vendas" },
   { key: "faturamento", label: "Faturamento" },
   { key: "investimento", label: "Investimento" },
@@ -726,7 +728,8 @@ function _renderCompareChart(){
       color: _WORKSHOP_PALETTE[i % _WORKSHOP_PALETTE.length],
       values: {
         leads: v.leads, leadsAugeGrupo: v.leadsAugeGrupo, leadsPico: v.leadsPico,
-        vendas: v.vendas, faturamento: v.faturamento, investimento: v.investimento, roi: roi
+        pagouSinal: v.pagouSinal, vendas: v.vendas, faturamento: v.faturamento,
+        investimento: v.investimento, roi: roi
       }
     };
   }).filter(function(d){
